@@ -11,7 +11,7 @@ static voba_value_t voba___current_working_directory __attribute__((used))  = VO
                                                   MODULE_NAME           \
                                                   )),                   \
                              voba___current_working_directory);         \
-                 if(voba_is_nil(voba___current_working_directory)){     \
+                 if(voba_is_nil(voba___current_module)){                \
                      voba_throw_exception(voba_make_string(             \
                                               voba_str_from_cstr("cannot load library " MODULE_NAME))); \
                  }                                                      \

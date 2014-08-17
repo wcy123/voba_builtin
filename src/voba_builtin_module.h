@@ -1,6 +1,6 @@
 #pragma once
 #ifndef MODULE_NAME
-#define MODULE_NAME "builtin_module"
+#define MODULE_NAME "voba_builtin_module"
 #endif
 #define SYMBOL_TABLE(XX)                        \
     XX(get_class)                               \
@@ -11,4 +11,4 @@
     XX(print)
 #include "module_begin.h"
 
-#define IMP "./libbuiltin_module.so"
+#define IMP "./libvoba_builtin.so"
