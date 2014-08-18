@@ -9,6 +9,6 @@
     XX(to_string)                               \
     XX(to_i32)                                  \
     XX(print)
-#include "module_begin.h"
+#include "voba_module_end.h"
 
 #define IMP "./libvoba_builtin.so"
