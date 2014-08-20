@@ -171,7 +171,7 @@ VOBA_FUNC static voba_value_t to_string_symbol(voba_value_t self,voba_value_t vs
 VOBA_SMALL_TYPES(DEFINE_TO_STRING_FOR_SMALL_TYPE)
 // print
 EXEC_ONCE_DO(voba_symbol_set_value(s_print, voba_make_func(print));)
-VOBA_FUNC voba_value_t print(voba_value_t self, voba_value_t a1) 
+VOBA_FUNC static voba_value_t print(voba_value_t self, voba_value_t a1) 
 {
     int64_t len = voba_array_len(a1);
     for(int i = 0; i < len; ++i){
