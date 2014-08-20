@@ -154,6 +154,21 @@ VOBA_FUNC static voba_value_t to_string_symbol(voba_value_t self,voba_value_t vs
     return *(voba_to_pointer(voba_value_t*, voba_array_at(vs,0)));
 }
 
+#define DEFINE_TO_STRING_FOR_SMALL_TYPE(tag,name,type)                  \
+    VOBA_FUNC voba_value_t to_string_##name                             \
+    (voba_value_t self,voba_value_t args)                               \
+    {                                                                   \
+        voba_value_t v = voba_array_at(args,0);                         \
+        voba_str_t* ret =                                               \
+            voba_str_fmt_##type(voba_value_to_##name(v),10);            \
+        return voba_make_string(ret);                                   \
+    }                                                                   \
+    EXEC_ONCE_DO_WITH_TAG(to_string_##name,voba_gf_add_class(           \
+                     gf_to_string,                                      \
+                     voba_cls_##name,                                   \
+                     voba_make_func(to_string_##name));)
+
+VOBA_SMALL_TYPES(DEFINE_TO_STRING_FOR_SMALL_TYPE)
 // print
 EXEC_ONCE_DO(voba_symbol_set_value(s_print, voba_make_func(print));)
 VOBA_FUNC voba_value_t print(voba_value_t self, voba_value_t a1) 
