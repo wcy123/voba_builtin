@@ -38,7 +38,7 @@ EXEC_ONCE_DO(voba_symbol_set_value(s_to_string, gf_to_string);)
 EXEC_ONCE_DO(voba_gf_add_class(gf_to_string,voba_cls_str,voba_make_func(to_string_string));)
 VOBA_FUNC static voba_value_t to_string_string(voba_value_t self,voba_value_t v)
 {
-    voba_str_t* ret = voba_mkstr('"',1);
+    voba_str_t* ret = voba_str_from_char('"',1);
     ret = voba_strcat(ret,voba_value_to_str(voba_array_at(v,0)));
     ret = voba_strcat_char(ret,'"');
     return voba_make_string(ret);
