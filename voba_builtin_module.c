@@ -1,6 +1,6 @@
-#include "voba_value.h"
-#include "voba_module.h"
-#include "voba_builtin_module.h"
+#include <voba/include/value.h>
+#include <voba/include/module.h>
+#include "builtin.h"
 
 VOBA_FUNC static voba_value_t get_class(voba_value_t self,voba_value_t v);
 VOBA_FUNC static voba_value_t print(voba_value_t self, voba_value_t a1) ;
