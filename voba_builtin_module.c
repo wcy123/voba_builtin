@@ -149,9 +149,13 @@ VOBA_FUNC static voba_value_t to_string_user_data(voba_value_t self,voba_value_t
     return voba_make_string(ret);
 }
 EXEC_ONCE_DO(voba_gf_add_class(gf_to_string,voba_cls_symbol,voba_make_func(to_string_symbol));)
-VOBA_FUNC static voba_value_t to_string_symbol(voba_value_t self,voba_value_t vs)
+VOBA_FUNC static voba_value_t to_string_symbol(voba_value_t self,voba_value_t args)
 {
-    return *(voba_to_pointer(voba_value_t*, voba_array_at(vs,0)));
+    voba_value_t s = voba_array_at(args,0);
+    return voba_make_string(voba_vstrcat(
+                                voba_strdup(voba_value_to_str(voba_symbol_name(s))),
+                                VOBA_CONST_CHAR("@0x"),
+                                voba_str_fmt_uint64_t(s,16),NULL));
 }
 
 #define DEFINE_TO_STRING_FOR_SMALL_TYPE(tag,name,type)                  \
