@@ -18,7 +18,7 @@ VOBA_FUNC static voba_value_t to_string_symbol(voba_value_t self,voba_value_t vs
 EXEC_ONCE_DO(voba_symbol_set_value(s_get_class,voba_make_func(get_class));)
 VOBA_FUNC static voba_value_t get_class(voba_value_t self, voba_value_t v)
 {
-    return voba_get_class_internal(v);
+    return voba_get_class(v);
 }
 
 // to_i32
