@@ -22,7 +22,7 @@ VOBA_FUNC static voba_value_t get_class(voba_value_t self, voba_value_t v)
 }
 
 // to_i32
-DEF(gf_to_i32, voba_make_generic_function())
+VOBA_DEF(gf_to_i32, voba_make_generic_function())
 EXEC_ONCE_DO(voba_symbol_set_value(s_to_i32,gf_to_i32);)
 // apply
 EXEC_ONCE_DO(voba_gf_add_class(voba_gf_apply,voba_cls_array,voba_make_func(apply_array));)
@@ -33,7 +33,7 @@ VOBA_FUNC static voba_value_t apply_array(voba_value_t self, voba_value_t v)
 }
 
 // to_string
-DEF(gf_to_string, voba_make_generic_function())
+VOBA_DEF(gf_to_string, voba_make_generic_function())
 EXEC_ONCE_DO(voba_symbol_set_value(s_to_string, gf_to_string);)
 EXEC_ONCE_DO(voba_gf_add_class(gf_to_string,voba_cls_str,voba_make_func(to_string_string));)
 VOBA_FUNC static voba_value_t to_string_string(voba_value_t self,voba_value_t v)
