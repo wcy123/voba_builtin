@@ -15,7 +15,7 @@ VOBA_FUNC static voba_value_t to_string_boolean(voba_value_t self,voba_value_t v
 VOBA_FUNC static voba_value_t to_string_user_data(voba_value_t self,voba_value_t vs);
 VOBA_FUNC static voba_value_t to_string_symbol(voba_value_t self,voba_value_t vs);
 
-EXEC_ONCE_DO(VOBA_DEFINE_MODULE_SYMBOL(s_get_class,voba_make_func(get_class));)
+EXEC_ONCE_PROGN{VOBA_DEFINE_MODULE_SYMBOL(s_get_class,voba_make_func(get_class));}
 VOBA_FUNC static voba_value_t get_class(voba_value_t self, voba_value_t v)
 {
     return voba_get_class(v);
@@ -23,9 +23,9 @@ VOBA_FUNC static voba_value_t get_class(voba_value_t self, voba_value_t v)
 
 // to_i32
 VOBA_DEF(gf_to_i32, voba_make_generic_function())
-EXEC_ONCE_DO(VOBA_DEFINE_MODULE_SYMBOL(s_to_i32,gf_to_i32);)
+EXEC_ONCE_PROGN{VOBA_DEFINE_MODULE_SYMBOL(s_to_i32,gf_to_i32);}
 // apply
-EXEC_ONCE_DO(voba_gf_add_class(voba_gf_apply,voba_cls_array,voba_make_func(apply_array));)
+EXEC_ONCE_PROGN{voba_gf_add_class(voba_gf_apply,voba_cls_array,voba_make_func(apply_array));}
 VOBA_FUNC static voba_value_t apply_array(voba_value_t self, voba_value_t v)
 {
     int32_t index = voba_value_to_i32(voba_apply(gf_to_i32,v));
@@ -34,8 +34,8 @@ VOBA_FUNC static voba_value_t apply_array(voba_value_t self, voba_value_t v)
 
 // to_string
 VOBA_DEF(gf_to_string, voba_make_generic_function())
-EXEC_ONCE_DO(VOBA_DEFINE_MODULE_SYMBOL(s_to_string, gf_to_string);)
-EXEC_ONCE_DO(voba_gf_add_class(gf_to_string,voba_cls_str,voba_make_func(to_string_string));)
+EXEC_ONCE_PROGN{VOBA_DEFINE_MODULE_SYMBOL(s_to_string, gf_to_string);}
+EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_str,voba_make_func(to_string_string));}
 VOBA_FUNC static voba_value_t to_string_string(voba_value_t self,voba_value_t v)
 {
     voba_str_t* ret = voba_str_from_char('"',1);
@@ -43,7 +43,7 @@ VOBA_FUNC static voba_value_t to_string_string(voba_value_t self,voba_value_t v)
     ret = voba_strcat_char(ret,'"');
     return voba_make_string(ret);
 }
-EXEC_ONCE_DO(voba_gf_add_class(gf_to_string,voba_cls_func,voba_make_func(to_string_funcp));)
+EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_func,voba_make_func(to_string_funcp));}
 VOBA_FUNC static voba_value_t to_string_funcp(voba_value_t self, voba_value_t v)
 {
     voba_str_t * ret = voba_str_empty();
@@ -52,7 +52,7 @@ VOBA_FUNC static voba_value_t to_string_funcp(voba_value_t self, voba_value_t v)
     ret = voba_strcat_cstr(ret," >");    
     return voba_make_string(ret);
 }
-EXEC_ONCE_DO(voba_gf_add_class(gf_to_string,voba_cls_closure,voba_make_func(to_string_closure));)
+EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_closure,voba_make_func(to_string_closure));}
 VOBA_FUNC static voba_value_t to_string_closure(voba_value_t self,voba_value_t vs)
 {
     voba_str_t *ret = voba_str_empty();
@@ -63,7 +63,7 @@ VOBA_FUNC static voba_value_t to_string_closure(voba_value_t self,voba_value_t v
     ret = voba_strcat_char(ret,'>');
     return voba_make_string(ret);
 }
-EXEC_ONCE_DO(voba_gf_add_class(gf_to_string,voba_cls_array,voba_make_func(to_string_array));)
+EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_array,voba_make_func(to_string_array));}
 VOBA_FUNC static  voba_value_t to_string_array(voba_value_t self,voba_value_t vs)
 {
     voba_value_t v = voba_array_at(vs,0);
@@ -82,7 +82,7 @@ VOBA_FUNC static  voba_value_t to_string_array(voba_value_t self,voba_value_t vs
     ret = voba_strcat_char(ret,']');
     return voba_make_string(ret);
 }
-EXEC_ONCE_DO(voba_gf_add_class(gf_to_string,voba_cls_pair,voba_make_func(to_string_pair));)
+EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_pair,voba_make_func(to_string_pair));}
 VOBA_FUNC static voba_value_t to_string_pair(voba_value_t self,voba_value_t vs)
 {
     voba_value_t args[] = {1, VOBA_NIL};
@@ -115,14 +115,14 @@ VOBA_FUNC static voba_value_t to_string_pair(voba_value_t self,voba_value_t vs)
     ret = voba_strcat_char(ret,')');
     return voba_make_string(ret);
 }
-EXEC_ONCE_DO(voba_gf_add_class(gf_to_string,voba_cls_nil,voba_make_func(to_string_nil));)
+EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_nil,voba_make_func(to_string_nil));}
 VOBA_FUNC static voba_value_t to_string_nil(voba_value_t self,voba_value_t vs)
 {
     voba_str_t *ret = voba_str_from_cstr("nil");
     return voba_make_string(ret);
 }
 
-EXEC_ONCE_DO(voba_gf_add_class(gf_to_string,voba_cls_bool,voba_make_func(to_string_boolean));)
+EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_bool,voba_make_func(to_string_boolean));}
 VOBA_FUNC static voba_value_t to_string_boolean(voba_value_t self,voba_value_t vs)
 {
     voba_value_t v = voba_array_at(vs,0);
@@ -138,7 +138,7 @@ VOBA_FUNC static voba_value_t to_string_boolean(voba_value_t self,voba_value_t v
     voba_str_t *ret = voba_str_from_cstr("unknown");
     return voba_make_string(ret);
 }
-EXEC_ONCE_DO(voba_gf_add_class(gf_to_string,voba_cls_user,voba_make_func(to_string_user_data));)
+EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_user,voba_make_func(to_string_user_data));}
 VOBA_FUNC static voba_value_t to_string_user_data(voba_value_t self,voba_value_t vs)
 {
     voba_value_t v = voba_array_at(vs,0);
@@ -148,7 +148,7 @@ VOBA_FUNC static voba_value_t to_string_user_data(voba_value_t self,voba_value_t
     ret = voba_strcat_char(ret,'>');
     return voba_make_string(ret);
 }
-EXEC_ONCE_DO(voba_gf_add_class(gf_to_string,voba_cls_symbol,voba_make_func(to_string_symbol));)
+EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_symbol,voba_make_func(to_string_symbol));}
 VOBA_FUNC static voba_value_t to_string_symbol(voba_value_t self,voba_value_t args)
 {
     voba_value_t s = voba_array_at(args,0);
@@ -167,14 +167,16 @@ VOBA_FUNC static voba_value_t to_string_symbol(voba_value_t self,voba_value_t ar
             voba_str_fmt_##type(voba_value_to_##name(v),10);            \
         return voba_make_string(ret);                                   \
     }                                                                   \
-    EXEC_ONCE_DO_WITH_TAG(to_string_##name,voba_gf_add_class(           \
-                     gf_to_string,                                      \
-                     voba_cls_##name,                                   \
-                     voba_make_func(to_string_##name));)
+    EXEC_ONCE_PROGN{                                                    \
+        voba_gf_add_class(                                              \
+            gf_to_string,                                               \
+            voba_cls_##name,                                            \
+            voba_make_func(to_string_##name));                          \
+    }
 
 VOBA_SMALL_TYPES(DEFINE_TO_STRING_FOR_SMALL_TYPE)
 // print
-EXEC_ONCE_DO(VOBA_DEFINE_MODULE_SYMBOL(s_print, voba_make_func(print));)
+EXEC_ONCE_PROGN{VOBA_DEFINE_MODULE_SYMBOL(s_print, voba_make_func(print));}
 VOBA_FUNC static voba_value_t print(voba_value_t self, voba_value_t a1) 
 {
     int64_t len = voba_array_len(a1);
