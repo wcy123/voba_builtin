@@ -8,7 +8,7 @@
     XX(to_i32)                                  \
     XX(print)
 
-#define VOBA_MODULE_NAME "libvoba_builtin"
+#define VOBA_MODULE_NAME "voba_builtin"
 #include <voba/include/module_end.h>
 
 
