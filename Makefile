@@ -27,7 +27,7 @@ install: libvoba_builtin.so
 	install libvoba_builtin.so $(PREFIX)/voba/core/
 	install builtin.h $(PREFIX)/voba/core/
 
-libvoba_builtin.so: voba_builtin_module.o
+libvoba_builtin.so: voba_builtin_module.o $(PREFIX)/voba/lib/libvoba_module.so
 	$(CXX) -shared -Wl,-soname,$@  -o $@ $<
 
 clean:
