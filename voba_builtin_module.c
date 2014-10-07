@@ -191,6 +191,27 @@ VOBA_FUNC static voba_value_t print(voba_value_t self, voba_value_t a1)
     fputc('\n',stdout);
     return VOBA_NIL;
 }
+// _2B = +
+VOBA_DEF(gf_plus, voba_make_generic_function())
+EXEC_ONCE_PROGN{VOBA_DEFINE_MODULE_SYMBOL(s__2B, gf_plus);}
+VOBA_FUNC static voba_value_t plus_string(voba_value_t self, voba_value_t args);
+EXEC_ONCE_PROGN{voba_gf_add_class(gf_plus,voba_cls_str,voba_make_func(plus_string));}
+VOBA_FUNC static voba_value_t plus_string(voba_value_t self, voba_value_t args)
+{
+    voba_str_t* ret = voba_str_empty();
+    int64_t len = voba_array_len(args);
+    for(int64_t i = 0; i < len; ++i){
+        voba_value_t ai = voba_array_at(args,i);
+        if(voba_get_class(ai) == voba_cls_str){
+            ret = voba_strcat(ret, voba_value_to_str(ai));
+        }else{
+            voba_value_t tmp_args[] = {1,ai};
+            voba_value_t s = voba_apply(gf_to_string,voba_make_array(tmp_args));
+            ret = voba_strcat(ret, voba_value_to_str(s));
+        }
+    }
+    return voba_make_string(ret);
+}
 
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)

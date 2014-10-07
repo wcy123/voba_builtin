@@ -4,7 +4,8 @@
     XX(get_class)                               \
     XX(to_string)                               \
     XX(to_i32)                                  \
-    XX(print)
+    XX(print)                                   \
+    XX(_2B)
 
 //(gf_apply)                              
 //(apply)                                 
