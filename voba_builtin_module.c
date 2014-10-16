@@ -124,7 +124,7 @@ VOBA_FUNC static voba_value_t to_string_la(voba_value_t self,voba_value_t vs)
     voba_str_t* ret = voba_str_empty();
     ret = voba_strcat_char(ret,'[');
     int i = 0; 
-    voba_value_t x = v;
+    voba_value_t x = voba_la_copy(v);
     while(1){ // circular la would cause infinite loop;
         if(i!=0){
             ret = voba_strcat_char(ret,',');
