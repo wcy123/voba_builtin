@@ -11,6 +11,7 @@ VOBA_FUNC static voba_value_t to_string_array(voba_value_t self,voba_value_t vs)
 VOBA_FUNC static voba_value_t to_string_closure(voba_value_t self,voba_value_t vs);
 VOBA_FUNC static voba_value_t to_string_pair(voba_value_t self,voba_value_t vs);
 VOBA_FUNC static voba_value_t to_string_la(voba_value_t self,voba_value_t vs);
+VOBA_FUNC static voba_value_t to_string_undef(voba_value_t self,voba_value_t vs);
 VOBA_FUNC static voba_value_t to_string_nil(voba_value_t self,voba_value_t vs);
 VOBA_FUNC static voba_value_t to_string_boolean(voba_value_t self,voba_value_t vs);
 VOBA_FUNC static voba_value_t to_string_user_data(voba_value_t self,voba_value_t vs);
@@ -146,6 +147,12 @@ EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_nil,voba_make_func(to_st
 VOBA_FUNC static voba_value_t to_string_nil(voba_value_t self,voba_value_t vs)
 {
     voba_str_t *ret = voba_str_from_cstr("nil");
+    return voba_make_string(ret);
+}
+EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_undef,voba_make_func(to_string_undef));}
+VOBA_FUNC static voba_value_t to_string_undef(voba_value_t self,voba_value_t vs)
+{
+    voba_str_t *ret = voba_str_from_cstr("undef");
     return voba_make_string(ret);
 }
 
