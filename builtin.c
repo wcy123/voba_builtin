@@ -251,15 +251,34 @@ VOBA_FUNC static voba_value_t plus_string(voba_value_t self, voba_value_t args)
 }
 
 static voba_value_t gf_match = VOBA_UNDEF;
-/* VOBA_FUNC static voba_value_t match_i32(voba_value_t self, voba_value_t args) 
+VOBA_FUNC static voba_value_t match_single(voba_value_t self, voba_value_t args) 
 {
-    
+    voba_value_t ret = VOBA_FALSE;
+    VOBA_DEF_ARG3(cls,args,0);
+    VOBA_DEF_ARG3(v,args,1);
+    VOBA_DEF_ARG3(index,args,2);
+    VOBA_DEF_ARG3(len,args,3);
+    int32_t index1 = voba_value_to_i32(index);
+    int32_t len1 = voba_value_to_i32(len);
+    switch(index1){
+    case -1:
+        if(len1 == 1 && voba_is_a(v,cls)){
+            ret = VOBA_TRUE;
+        }
+        break;
+    case 0:
+        assert(len1 == 1);
+        ret = v;
+        break;
+    default:
+        assert(0&&"never goes here");
+    }
+    return ret;
 }
-*/
 EXEC_ONCE_PROGN{
     gf_match = voba_module_var(VOBA_MODULE_LANG_ID,VOBA_MODULE_LANG_ID,VOBA_MODULE_LANG_MATCH);
     VOBA_DEFINE_MODULE_SYMBOL(s_cls_i32, voba_cls_i32);
-    //voba_gf_add_class(gf_to_string,voba_cls_nil,voba_make_func(to_string_nil));
+    voba_gf_add_class(voba_symbol_value(gf_match),voba_cls_i32,voba_make_func(match_single));
 }
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)
