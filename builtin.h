@@ -5,8 +5,8 @@
     XX(to_string)                               \
     XX(to_i32)                                  \
     XX(print)                                   \
-    XX(_2B)
-
+    XX(_2B)                                     \
+    XX(cls_i32)                                 \
 //(gf_apply)                              
 //(apply)                                 
 

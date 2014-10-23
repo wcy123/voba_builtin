@@ -25,8 +25,11 @@ VOBA_FUNC static voba_value_t get_class(voba_value_t self, voba_value_t v)
 }
 
 // to_i32
-VOBA_DEF(gf_to_i32, voba_make_generic_function())
-EXEC_ONCE_PROGN{VOBA_DEFINE_MODULE_SYMBOL(s_to_i32,gf_to_i32);}
+static voba_value_t gf_to_i32 = VOBA_UNDEF;
+EXEC_ONCE_PROGN{
+    gf_to_i32 =  voba_make_generic_function();
+    VOBA_DEFINE_MODULE_SYMBOL(s_to_i32,gf_to_i32);
+}
 // apply
 EXEC_ONCE_PROGN{voba_gf_add_class(voba_gf_apply,voba_cls_array,voba_make_func(apply_array));}
 VOBA_FUNC static voba_value_t apply_array(voba_value_t self, voba_value_t v)
@@ -36,8 +39,11 @@ VOBA_FUNC static voba_value_t apply_array(voba_value_t self, voba_value_t v)
 }
 
 // to_string
-VOBA_DEF(gf_to_string, voba_make_generic_function())
-EXEC_ONCE_PROGN{VOBA_DEFINE_MODULE_SYMBOL(s_to_string, gf_to_string);}
+static voba_value_t gf_to_string = VOBA_UNDEF;
+EXEC_ONCE_PROGN{
+    gf_to_string = voba_make_generic_function();
+    VOBA_DEFINE_MODULE_SYMBOL(s_to_string, gf_to_string);
+}
 EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_str,voba_make_func(to_string_string));}
 VOBA_FUNC static voba_value_t to_string_string(voba_value_t self,voba_value_t v)
 {
@@ -227,8 +233,10 @@ VOBA_FUNC static voba_value_t print(voba_value_t self, voba_value_t a1)
     return VOBA_NIL;
 }
 // _2B = +
-VOBA_DEF(gf_plus, voba_make_generic_function())
-EXEC_ONCE_PROGN{VOBA_DEFINE_MODULE_SYMBOL(s__2B, gf_plus);}
+static voba_value_t gf_plus = VOBA_UNDEF;
+EXEC_ONCE_PROGN{
+    gf_plus = voba_make_generic_function();
+    VOBA_DEFINE_MODULE_SYMBOL(s__2B, gf_plus);}
 VOBA_FUNC static voba_value_t plus_string(voba_value_t self, voba_value_t args);
 EXEC_ONCE_PROGN{voba_gf_add_class(gf_plus,voba_cls_str,voba_make_func(plus_string));}
 VOBA_FUNC static voba_value_t plus_string(voba_value_t self, voba_value_t args)
@@ -246,6 +254,9 @@ VOBA_FUNC static voba_value_t plus_string(voba_value_t self, voba_value_t args)
         }
     }
     return voba_make_string(ret);
+}
+EXEC_ONCE_PROGN{
+    VOBA_DEFINE_MODULE_SYMBOL(s_cls_i32, voba_cls_i32);
 }
 
 // the main entry
