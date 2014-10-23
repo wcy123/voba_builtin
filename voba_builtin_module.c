@@ -1,3 +1,4 @@
+#define EXEC_ONCE_TU_NAME "voba_builtin_module"
 #include <voba/include/value.h>
 #include <voba/include/module.h>
 #include "builtin.h"
@@ -250,6 +251,6 @@ VOBA_FUNC static voba_value_t plus_string(voba_value_t self, voba_value_t args)
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)
 {
-    exec_once_run();
+    exec_once_init();
     return VOBA_NIL;
 }
