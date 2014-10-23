@@ -277,8 +277,22 @@ VOBA_FUNC static voba_value_t match_single(voba_value_t self, voba_value_t args)
 }
 EXEC_ONCE_PROGN{
     gf_match = voba_module_var(VOBA_MODULE_LANG_ID,VOBA_MODULE_LANG_ID,VOBA_MODULE_LANG_MATCH);
+    VOBA_DEFINE_MODULE_SYMBOL(s_cls_i8, voba_cls_i8);
+    voba_gf_add_class(voba_symbol_value(gf_match),voba_cls_i8,voba_make_func(match_single));
+    VOBA_DEFINE_MODULE_SYMBOL(s_cls_i16, voba_cls_i16);
+    voba_gf_add_class(voba_symbol_value(gf_match),voba_cls_i16,voba_make_func(match_single));
     VOBA_DEFINE_MODULE_SYMBOL(s_cls_i32, voba_cls_i32);
     voba_gf_add_class(voba_symbol_value(gf_match),voba_cls_i32,voba_make_func(match_single));
+    VOBA_DEFINE_MODULE_SYMBOL(s_cls_u8, voba_cls_u8);
+    voba_gf_add_class(voba_symbol_value(gf_match),voba_cls_u8,voba_make_func(match_single));
+    VOBA_DEFINE_MODULE_SYMBOL(s_cls_u16, voba_cls_u16);
+    voba_gf_add_class(voba_symbol_value(gf_match),voba_cls_u16,voba_make_func(match_single));
+    VOBA_DEFINE_MODULE_SYMBOL(s_cls_u32, voba_cls_u32);
+    voba_gf_add_class(voba_symbol_value(gf_match),voba_cls_u32,voba_make_func(match_single));
+    VOBA_DEFINE_MODULE_SYMBOL(s_cls_float, voba_cls_float);
+    voba_gf_add_class(voba_symbol_value(gf_match),voba_cls_float,voba_make_func(match_single));
+    VOBA_DEFINE_MODULE_SYMBOL(s_cls_str, voba_cls_str);
+    voba_gf_add_class(voba_symbol_value(gf_match),voba_cls_str,voba_make_func(match_single));
 }
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)
