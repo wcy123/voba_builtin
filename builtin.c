@@ -1,4 +1,5 @@
 #define EXEC_ONCE_TU_NAME "voba_builtin_module"
+#define EXEC_ONCE_DEPENDS {"voba_module",NULL}
 #include <voba/include/value.h>
 #include <voba/include/module.h>
 #include "builtin.h"
@@ -17,7 +18,9 @@ VOBA_FUNC static voba_value_t to_string_nil(voba_value_t self,voba_value_t vs);
 VOBA_FUNC static voba_value_t to_string_boolean(voba_value_t self,voba_value_t vs);
 VOBA_FUNC static voba_value_t to_string_symbol(voba_value_t self,voba_value_t vs);
 
-EXEC_ONCE_PROGN{VOBA_DEFINE_MODULE_SYMBOL(s_get_class,voba_make_func(get_class));}
+EXEC_ONCE_PROGN{
+    VOBA_DEFINE_MODULE_SYMBOL(s_get_class,voba_make_func(get_class));
+}
 VOBA_FUNC static voba_value_t get_class(voba_value_t self, voba_value_t v)
 {
     return voba_get_class(v);
@@ -246,10 +249,18 @@ VOBA_FUNC static voba_value_t plus_string(voba_value_t self, voba_value_t args)
     }
     return voba_make_string(ret);
 }
-EXEC_ONCE_PROGN{
-    VOBA_DEFINE_MODULE_SYMBOL(s_cls_i32, voba_cls_i32);
-}
 
+static voba_value_t gf_match = VOBA_UNDEF;
+/* VOBA_FUNC static voba_value_t match_i32(voba_value_t self, voba_value_t args) 
+{
+    
+}
+*/
+EXEC_ONCE_PROGN{
+    gf_match = voba_module_var(VOBA_MODULE_LANG_ID,VOBA_MODULE_LANG_ID,VOBA_MODULE_LANG_MATCH);
+    VOBA_DEFINE_MODULE_SYMBOL(s_cls_i32, voba_cls_i32);
+    //voba_gf_add_class(gf_to_string,voba_cls_nil,voba_make_func(to_string_nil));
+}
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)
 {
