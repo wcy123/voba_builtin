@@ -15,7 +15,6 @@ VOBA_FUNC static voba_value_t to_string_la(voba_value_t self,voba_value_t vs);
 VOBA_FUNC static voba_value_t to_string_undef(voba_value_t self,voba_value_t vs);
 VOBA_FUNC static voba_value_t to_string_nil(voba_value_t self,voba_value_t vs);
 VOBA_FUNC static voba_value_t to_string_boolean(voba_value_t self,voba_value_t vs);
-VOBA_FUNC static voba_value_t to_string_user_data(voba_value_t self,voba_value_t vs);
 VOBA_FUNC static voba_value_t to_string_symbol(voba_value_t self,voba_value_t vs);
 
 EXEC_ONCE_PROGN{VOBA_DEFINE_MODULE_SYMBOL(s_get_class,voba_make_func(get_class));}
@@ -179,17 +178,9 @@ VOBA_FUNC static voba_value_t to_string_boolean(voba_value_t self,voba_value_t v
     voba_str_t *ret = voba_str_from_cstr("unknown");
     return voba_make_string(ret);
 }
-EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_user,voba_make_func(to_string_user_data));}
-VOBA_FUNC static voba_value_t to_string_user_data(voba_value_t self,voba_value_t vs)
-{
-    voba_value_t v = voba_array_at(vs,0);
-    voba_str_t *ret = voba_str_empty();
-    ret = voba_strcat_cstr(ret,"<user ");
-    ret = voba_strcat(ret,voba_str_fmt_pointer(voba_user_data_base(v)));
-    ret = voba_strcat_char(ret,'>');
-    return voba_make_string(ret);
+EXEC_ONCE_PROGN{
+    voba_gf_add_class(gf_to_string,voba_cls_symbol,voba_make_func(to_string_symbol));
 }
-EXEC_ONCE_PROGN{voba_gf_add_class(gf_to_string,voba_cls_symbol,voba_make_func(to_string_symbol));}
 VOBA_FUNC static voba_value_t to_string_symbol(voba_value_t self,voba_value_t args)
 {
     voba_value_t s = voba_array_at(args,0);
