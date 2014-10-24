@@ -5,7 +5,11 @@
     XX(to_string)                                   \
     XX(to_i32)                                      \
     XX(print)                                       \
-    XX(_2B)                                         \
+    XX(_2B)/*+*/                                    \
+    XX(_3E)/*>*/                                    \
+    XX(_3C)/*<*/                                    \
+    XX(_3E_3D)/*>=*/                                    \
+    XX(_3C_3D)/*<=*/                                    \
     XX(cls_i8)                                      \
     XX(cls_i16)                                     \
     XX(cls_i32)                                     \
