@@ -113,7 +113,7 @@ VOBA_FUNC static voba_value_t to_string_pair(voba_value_t self,voba_value_t vs)
         x = voba_tail(x);
         if(voba_is_nil(x)){
             break;
-        }else if(!voba_is_pair(x)){
+        }else if(!voba_is_a(x,voba_cls_pair)){
             ret = voba_strcat_char(ret,'.');
             args[1] = x;
             ret = voba_strcat(ret,
