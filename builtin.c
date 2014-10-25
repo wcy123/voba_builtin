@@ -254,31 +254,65 @@ static voba_value_t gf_gt = VOBA_UNDEF;
 static voba_value_t gf_gt_eq = VOBA_UNDEF;
 static voba_value_t gf_lt = VOBA_UNDEF;
 static voba_value_t gf_lt_eq = VOBA_UNDEF;
-VOBA_FUNC static voba_value_t gt_i8(voba_value_t self, voba_value_t args)
+static inline int64_t voba_value_int_to_i64(voba_value_t a)
 {
-    voba_value_t ret = VOBA_FALSE;
-    VOBA_DEF_ARG4(voba_cls_i8,a,args,0);
-    int64_t a1 = (int64_t)voba_value_to_i8(a);
-    VOBA_DEF_ARG3(b,args,0);
-    if(voba_is_a(b,voba_cls_i8)){
-        int64_t b1 = (int64_t)voba_value_to_i8(b);
-        if(a1 > b1) ret = VOBA_TRUE;
+    int64_t ret = 0;
+    voba_value_t cls = voba_get_class(a);
+    if(cls == voba_cls_i8){
+        ret = (int64_t)voba_value_to_i8(a);
+    }else if(cls == voba_cls_i16){
+        ret = (int64_t)voba_value_to_i16(a);
+    }else if(cls == voba_cls_i32){
+        ret = (int64_t)voba_value_to_i32(a);
+    }else if(cls == voba_cls_u8){
+        ret = (int64_t)voba_value_to_u8(a);
+    }else if(cls == voba_cls_u16){
+        ret = (int64_t)voba_value_to_u16(a);
+    }else if(cls == voba_cls_u32){
+        ret = (int64_t)voba_value_to_u32(a);
+    }else{
+        assert(0&&"never goes here");
     }
     return ret;
 }
-VOBA_FUNC static voba_value_t lt_i8(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t gt_int(voba_value_t self, voba_value_t args)
 {
-    voba_value_t ret = VOBA_TRUE;
+    voba_value_t ret = VOBA_FALSE;
+    VOBA_DEF_ARG3(a,args,0);
+    VOBA_DEF_ARG3(b,args,1);
+    int64_t a1 = voba_value_int_to_i64(a);
+    int64_t b1 = voba_value_int_to_i64(b);
+    if(a1>b1) ret = VOBA_TRUE;
     return ret;
 }
-VOBA_FUNC static voba_value_t gt_eq_i8(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t lt_int(voba_value_t self, voba_value_t args)
 {
-    voba_value_t ret = VOBA_TRUE;
+    voba_value_t ret = VOBA_FALSE;
+    VOBA_DEF_ARG3(a,args,0);
+    VOBA_DEF_ARG3(b,args,1);
+    int64_t a1 = voba_value_int_to_i64(a);
+    int64_t b1 = voba_value_int_to_i64(b);
+    if(a1<b1) ret = VOBA_TRUE;
     return ret;
 }
-VOBA_FUNC static voba_value_t lt_eq_i8(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t gt_eq_int(voba_value_t self, voba_value_t args)
 {
-    voba_value_t ret = VOBA_TRUE;
+    voba_value_t ret = VOBA_FALSE;
+    VOBA_DEF_ARG3(a,args,0);
+    VOBA_DEF_ARG3(b,args,1);
+    int64_t a1 = voba_value_int_to_i64(a);
+    int64_t b1 = voba_value_int_to_i64(b);
+    if(a1>=b1) ret = VOBA_TRUE;
+    return ret;
+}
+VOBA_FUNC static voba_value_t lt_eq_int(voba_value_t self, voba_value_t args)
+{
+    voba_value_t ret = VOBA_FALSE;
+    VOBA_DEF_ARG3(a,args,0);
+    VOBA_DEF_ARG3(b,args,1);
+    int64_t a1 = voba_value_int_to_i64(a);
+    int64_t b1 = voba_value_int_to_i64(b);
+    if(a1<=b1) ret = VOBA_TRUE;
     return ret;
 }
 EXEC_ONCE_PROGN{
@@ -287,13 +321,38 @@ EXEC_ONCE_PROGN{
     gf_lt = voba_make_generic_function();
     gf_lt_eq = voba_make_generic_function();
     VOBA_DEFINE_MODULE_SYMBOL(s__3E, gf_gt);
-    VOBA_DEFINE_MODULE_SYMBOL(s__3C, gf_gt_eq);
-    VOBA_DEFINE_MODULE_SYMBOL(s__3E_3D, gf_lt);
+    VOBA_DEFINE_MODULE_SYMBOL(s__3C, gf_lt);
+    VOBA_DEFINE_MODULE_SYMBOL(s__3E_3D, gf_gt_eq);
     VOBA_DEFINE_MODULE_SYMBOL(s__3C_3D, gf_lt_eq);
-    voba_gf_add_class(gf_gt,voba_cls_i8,voba_make_func(gt_i8));
-    voba_gf_add_class(gf_lt,voba_cls_i8,voba_make_func(lt_i8));
-    voba_gf_add_class(gf_gt_eq,voba_cls_i8,voba_make_func(gt_eq_i8));
-    voba_gf_add_class(gf_gt_eq,voba_cls_i8,voba_make_func(lt_eq_i8));
+    voba_gf_add_class(gf_gt,voba_cls_i8,voba_make_func(gt_int));
+    voba_gf_add_class(gf_lt,voba_cls_i8,voba_make_func(lt_int));
+    voba_gf_add_class(gf_gt_eq,voba_cls_i8,voba_make_func(gt_eq_int));
+    voba_gf_add_class(gf_lt_eq,voba_cls_i8,voba_make_func(lt_eq_int));
+    
+    voba_gf_add_class(gf_gt,voba_cls_i16,voba_make_func(gt_int));
+    voba_gf_add_class(gf_lt,voba_cls_i16,voba_make_func(lt_int));
+    voba_gf_add_class(gf_gt_eq,voba_cls_i16,voba_make_func(gt_eq_int));
+    voba_gf_add_class(gf_lt_eq,voba_cls_i16,voba_make_func(lt_eq_int));
+    
+    voba_gf_add_class(gf_gt,voba_cls_i32,voba_make_func(gt_int));
+    voba_gf_add_class(gf_lt,voba_cls_i32,voba_make_func(lt_int));
+    voba_gf_add_class(gf_gt_eq,voba_cls_i32,voba_make_func(gt_eq_int));
+    voba_gf_add_class(gf_lt_eq,voba_cls_i32,voba_make_func(lt_eq_int));
+    
+    voba_gf_add_class(gf_gt,voba_cls_u8,voba_make_func(gt_int));
+    voba_gf_add_class(gf_lt,voba_cls_u8,voba_make_func(lt_int));
+    voba_gf_add_class(gf_gt_eq,voba_cls_u8,voba_make_func(gt_eq_int));
+    voba_gf_add_class(gf_lt_eq,voba_cls_u8,voba_make_func(lt_eq_int));
+    
+    voba_gf_add_class(gf_gt,voba_cls_u16,voba_make_func(gt_int));
+    voba_gf_add_class(gf_lt,voba_cls_u16,voba_make_func(lt_int));
+    voba_gf_add_class(gf_gt_eq,voba_cls_u16,voba_make_func(gt_eq_int));
+    voba_gf_add_class(gf_lt_eq,voba_cls_u16,voba_make_func(lt_eq_int));
+    
+    voba_gf_add_class(gf_gt,voba_cls_u32,voba_make_func(gt_int));
+    voba_gf_add_class(gf_lt,voba_cls_u32,voba_make_func(lt_int));
+    voba_gf_add_class(gf_gt_eq,voba_cls_u32,voba_make_func(gt_eq_int));
+    voba_gf_add_class(gf_lt_eq,voba_cls_u32,voba_make_func(lt_eq_int));
 }
 
 //
