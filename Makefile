@@ -30,10 +30,6 @@ CFLAGS += -fPIC
 all: install
 
 
-install: libvoba_builtin.so
-	install libvoba_builtin.so $(PREFIX)/voba/core/
-	install builtin.h $(PREFIX)/voba/core/
-
 libvoba_builtin.so: builtin.o $(PREFIX)/voba/lib/libvoba_module.so
 	$(CXX) -shared -Wl,-soname,$@  -o $@ $<
 
@@ -41,3 +37,12 @@ clean:
 	rm *.o *.so
 
 .PHONY: all clean
+
+INSTALL_FILES += $(PREFIX)/voba/core/libvoba_builtin.so
+INSTALL_FILES += $(PREFIX)/voba/core/builtin.h
+install: $(INSTALL_FILES)
+
+$(PREFIX)/voba/core/libvoba_builtin.so :  libvoba_builtin.so
+	install libvoba_builtin.so $(PREFIX)/voba/core/
+$(PREFIX)/voba/core/builtin.h :  builtin.h
+	install builtin.h $(PREFIX)/voba/core/
