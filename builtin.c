@@ -286,8 +286,10 @@ static voba_value_t gf_lt_eq = VOBA_UNDEF;
 VOBA_FUNC static voba_value_t equal_int(voba_value_t self, voba_value_t args)
 {
     voba_value_t ret = VOBA_FALSE;
-    VOBA_DEF_ARG3(a,args,0);
-    VOBA_DEF_ARG3(b,args,1);
+    VOBA_ASSERT_N_ARG(args,0); voba_value_t a = voba_array_at(args,0);
+;
+    VOBA_ASSERT_N_ARG(args,1); voba_value_t b = voba_array_at(args,1);
+;
     if(voba_is_int(b)){
         int64_t a1 = voba_int_value_to_i64(a);
         int64_t b1 = voba_int_value_to_i64(b);
@@ -300,8 +302,10 @@ VOBA_FUNC static voba_value_t equal_int(voba_value_t self, voba_value_t args)
 VOBA_FUNC static voba_value_t gt_int(voba_value_t self, voba_value_t args)
 {
     voba_value_t ret = VOBA_FALSE;
-    VOBA_DEF_ARG3(a,args,0);
-    VOBA_DEF_ARG3(b,args,1);
+    VOBA_ASSERT_N_ARG(args,0); voba_value_t a = voba_array_at(args,0);
+;
+    VOBA_ASSERT_N_ARG(args,1); voba_value_t b = voba_array_at(args,1);
+;
     if(voba_is_int(b)){
         int64_t a1 = voba_int_value_to_i64(a);
         int64_t b1 = voba_int_value_to_i64(b);
@@ -368,10 +372,14 @@ static voba_value_t gf_match = VOBA_UNDEF;
 VOBA_FUNC static voba_value_t match_single(voba_value_t self, voba_value_t args) 
 {
     voba_value_t ret = VOBA_FALSE;
-    VOBA_DEF_ARG3(cls,args,0);
-    VOBA_DEF_ARG3(v,args,1);
-    VOBA_DEF_ARG3(index,args,2);
-    VOBA_DEF_ARG3(len,args,3);
+    VOBA_ASSERT_N_ARG(args,0); voba_value_t cls = voba_array_at(args,0);
+;
+    VOBA_ASSERT_N_ARG(args,1); voba_value_t v = voba_array_at(args,1);
+;
+    VOBA_ASSERT_N_ARG(args,2); voba_value_t index = voba_array_at(args,2);
+;
+    VOBA_ASSERT_N_ARG(args,3); voba_value_t len = voba_array_at(args,3);
+;
     int32_t index1 = voba_value_to_i32(index);
     int32_t len1 = voba_value_to_i32(len);
     switch(index1){
@@ -415,15 +423,20 @@ EXEC_ONCE_PROGN{
 VOBA_FUNC static voba_value_t iter_array_next (voba_value_t self, voba_value_t args);
 VOBA_FUNC static voba_value_t iter_array (voba_value_t self, voba_value_t args)
 {
-    VOBA_DEF_ARG4(voba_cls_array,a,args,0);
+    VOBA_ASSERT_N_ARG(args,0); voba_value_t a = voba_array_at(args,0);
+VOBA_ASSERT_CLS(a,voba_cls_array,0);
+;
     voba_value_t ret = voba_make_closure_2
         (iter_array_next,a,0);
     return ret;
 }
 VOBA_FUNC static voba_value_t iter_array_next (voba_value_t self, voba_value_t args)
 {
-    VOBA_DEF_ARG4(voba_cls_array,a,self,0);
-    VOBA_DEF_ARG3(i,self,1);
+    VOBA_ASSERT_N_ARG(self,0); voba_value_t a = voba_array_at(self,0);
+VOBA_ASSERT_CLS(a,voba_cls_array,0);
+;
+    VOBA_ASSERT_N_ARG(self,1); voba_value_t i = voba_array_at(self,1);
+;
     int64_t len = voba_array_len(a);
     voba_value_t ret = VOBA_UNDEF;
     if(i < len){
@@ -445,20 +458,53 @@ EXEC_ONCE_PROGN{
 VOBA_FUNC static voba_value_t range_next(voba_value_t self, voba_value_t args);
 VOBA_FUNC static voba_value_t range(voba_value_t self, voba_value_t args)
 {
-    VOBA_DEF_ARG4(voba_cls_i32, from, args, 0);
-    VOBA_DEF_OPTIONAL_ARG4(voba_cls_i32, to, args, 1, from);
-    VOBA_DEF_OPTIONAL_ARG4(voba_cls_i32, step, args, 2, voba_make_i32(1));
     int64_t len = voba_array_len(args);
-    assert(len >= 1);
-    if(len == 1){
-        to = from;
+    VOBA_ASSERT_N_ARG( args, 0);
+    voba_value_t a1 = voba_array_at( args, 0);
+    VOBA_ASSERT_CLS(a1,voba_cls_i32, 0);
+    voba_value_t from = voba_make_i32(0);
+    voba_value_t to = voba_make_i32(0);
+    voba_value_t step = voba_make_i32(1);
+    switch(len){
+    case 0:
+        assert(0&&"never goes here");
+        break;
+    case 1:
         from = voba_make_i32(0);
+        to = a1;
+        break;
+    case 2:{
+        voba_value_t a2 = voba_array_at( args, 1);
+        VOBA_ASSERT_CLS(a2, voba_cls_i32, 1);
+        from = a1;
+        to = a2;
+        break;
     }
-    return voba_make_closure_3(
-        range_next,
-        voba_value_to_i32(from),
-        voba_value_to_i32(to),
-        voba_value_to_i32(step));
+    case 3:{
+        voba_value_t a2 = voba_array_at( args, 1);
+        VOBA_ASSERT_CLS(a2, voba_cls_i32, 1);
+        voba_value_t a3 = voba_array_at( args, 2);
+        VOBA_ASSERT_CLS(a3, voba_cls_i32, 2);
+        from = a1;
+        to = a2;
+        step = a3;
+        break;
+    }
+    }
+    int64_t ifrom = voba_value_to_i32(from);
+    int64_t ito = voba_value_to_i32(to);
+    int64_t istep = voba_value_to_i32(step);
+    if(!((istep < 0 && ito >= ifrom) ||
+         (istep > 0 && ifrom <= ito ))){
+        VOBA_THROW(VOBA_CONST_CHAR("infinite loop: "),
+                   VOBA_CONST_CHAR(" from = "),
+                   voba_str_fmt_int32_t(ifrom,10),
+                   VOBA_CONST_CHAR(" to = "),
+                   voba_str_fmt_int32_t(ito,10),
+                   VOBA_CONST_CHAR(" step = "),
+                   voba_str_fmt_int32_t(istep,10));
+    }
+    return voba_make_closure_3(range_next, ifrom, ito, istep);
 }
 VOBA_FUNC static voba_value_t range_next(voba_value_t self, voba_value_t args)
 {
