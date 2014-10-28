@@ -441,6 +441,45 @@ EXEC_ONCE_PROGN{
                       voba_cls_array,
                       voba_make_func(iter_array));
 }
+/* range */
+VOBA_FUNC static voba_value_t range_next(voba_value_t self, voba_value_t args);
+VOBA_FUNC static voba_value_t range(voba_value_t self, voba_value_t args)
+{
+    VOBA_DEF_ARG4(voba_cls_i32, from, args, 0);
+    VOBA_DEF_OPTIONAL_ARG4(voba_cls_i32, to, args, 1, from);
+    VOBA_DEF_OPTIONAL_ARG4(voba_cls_i32, step, args, 2, voba_make_i32(1));
+    int64_t len = voba_array_len(args);
+    assert(len >= 1);
+    if(len == 1){
+        to = from;
+        from = voba_make_i32(0);
+    }
+    return voba_make_closure_3(
+        range_next,
+        voba_value_to_i32(from),
+        voba_value_to_i32(to),
+        voba_value_to_i32(step));
+}
+VOBA_FUNC static voba_value_t range_next(voba_value_t self, voba_value_t args)
+{
+    int64_t len = voba_array_len(self);
+    assert(len == 3);
+    int64_t from = voba_array_at(self,0);
+    int64_t to   = voba_array_at(self,1);
+    int64_t step = voba_array_at(self,2);
+    assert((step < 0 && to >= from) ||
+           (step > 0 && from <= to ));
+    voba_value_t ret = VOBA_UNDEF;
+    if(from != to){
+        ret = voba_make_i32((int32_t) from);
+        from += step;
+        voba_array_set(self,0,from);
+    }
+    return ret;
+}
+EXEC_ONCE_PROGN{
+    VOBA_DEFINE_MODULE_SYMBOL(s_range, voba_make_func(range));
+}
 
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)
