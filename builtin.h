@@ -19,6 +19,7 @@
     XX(cls_u32)                                     \
     XX(cls_float)                                   \
     XX(cls_str)                                     \
+    XX(iter)
 
 //(gf_apply)                              
 //(apply)                                 
