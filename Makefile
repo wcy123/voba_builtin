@@ -29,14 +29,21 @@ CFLAGS += -fPIC
 
 all: install
 
+C_SRCS += builtin.c
 
-libvoba_builtin.so: builtin.o $(PREFIX)/voba/lib/libvoba_module.so
+
+OBJS += $(patsubst %.c,%.o,$(C_SRCS))
+
+libvoba_builtin.so: $(OBJS) $(PREFIX)/voba/lib/libvoba_module.so
 	$(CXX) -shared -Wl,-soname,$@  -o $@ $<
 
 clean:
 	rm *.o *.so
 
 .PHONY: all clean
+
+
+
 
 INSTALL_FILES += $(PREFIX)/voba/core/libvoba_builtin.so
 INSTALL_FILES += $(PREFIX)/voba/core/builtin.h
@@ -46,3 +53,11 @@ $(PREFIX)/voba/core/libvoba_builtin.so :  libvoba_builtin.so
 	install libvoba_builtin.so $(PREFIX)/voba/core/
 $(PREFIX)/voba/core/builtin.h :  builtin.h
 	install builtin.h $(PREFIX)/voba/core/
+
+
+
+.PHONY: depend
+depend: 
+	for i in $(C_SRCS); do $(CC) -MM $(CFLAGS) $$i; done > $@.inc
+
+-include depend.inc
