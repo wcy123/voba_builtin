@@ -3,7 +3,6 @@
 #define VOBA_SYMBOL_TABLE(XX)                       \
     XX(get_class)                                   \
     XX(str)                                         \
-    XX(to_i32)                                      \
     XX(print)                                       \
     XX(_2B)/*+*/                                    \
     XX(_3E)/*>*/                                    \
