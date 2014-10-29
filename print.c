@@ -12,6 +12,3 @@ VOBA_FUNC static voba_value_t print(voba_value_t self, voba_value_t a1)
     fputc('\n',stdout);
     return VOBA_NIL;
 }
-EXEC_ONCE_PROGN{
-    VOBA_DEFINE_MODULE_SYMBOL(s_print, voba_make_func(print));
-}
