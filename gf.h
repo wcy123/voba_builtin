@@ -9,6 +9,7 @@ EXEC_ONCE_PROGN{                                \
 XX(str)                                         \
 XX(match)                                       \
 XX(plus)                                        \
+XX(len)                                         \
 XX(iter)                                        \
 XX(apply)                                       \
 XX(equal)                                       \
