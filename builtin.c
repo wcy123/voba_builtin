@@ -23,6 +23,7 @@ EXEC_ONCE_PROGN{
     /* gf */
     VOBA_DEFINE_MODULE_SYMBOL(s_iter, gf_iter);
     VOBA_DEFINE_MODULE_SYMBOL(s_str, gf_str);
+    VOBA_DEFINE_MODULE_SYMBOL(s_len, gf_len);
     /* + */
     VOBA_DEFINE_MODULE_SYMBOL(s__2B, gf_plus);
     /* == equal*/
