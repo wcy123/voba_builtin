@@ -24,6 +24,7 @@ VOBA_FUNC static voba_value_t plus_string(voba_value_t self, voba_value_t args)
 EXEC_ONCE_PROGN{
     voba_gf_add_class(gf_str,voba_cls_str,voba_make_func(str_string));
     voba_gf_add_class(gf_plus,voba_cls_str,voba_make_func(plus_string));
+    voba_gf_add_class(voba_symbol_value(gf_match),voba_cls_str,voba_make_func(match_single));
 }
 
 
