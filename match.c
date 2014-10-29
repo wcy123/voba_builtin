@@ -1,4 +1,9 @@
-VOBA_FUNC static voba_value_t match_single(voba_value_t self, voba_value_t args) 
+#define EXEC_ONCE_TU_NAME "voba.builtin.match"
+#define EXEC_ONCE_DEPENDS {"voba.builtin",NULL}
+#include <voba/include/value.h>
+#include <voba/include/module.h>
+#include "gf.h"
+VOBA_FUNC voba_value_t match_single(voba_value_t self, voba_value_t args) 
 {
     voba_value_t ret = VOBA_FALSE;
     VOBA_ASSERT_N_ARG(args,0);

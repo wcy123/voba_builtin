@@ -30,12 +30,20 @@ CFLAGS += -fPIC
 all: install
 
 C_SRCS += builtin.c
+C_SRCS += gf.c
+C_SRCS += integer.c
+C_SRCS += range.c
+C_SRCS += print.c
+C_SRCS += array.c
+C_SRCS += match.c
+C_SRCS += str.c
+C_SRCS += other.c
 
 
 OBJS += $(patsubst %.c,%.o,$(C_SRCS))
 
-libvoba_builtin.so: $(OBJS) $(PREFIX)/voba/lib/libvoba_module.so
-	$(CXX) -shared -Wl,-soname,$@  -o $@ $<
+libvoba_builtin.so: $(OBJS)
+	$(CC) -shared -Wl,-soname,$@  -o $@ $+
 
 clean:
 	rm *.o *.so
@@ -61,3 +69,6 @@ depend:
 	for i in $(C_SRCS); do $(CC) -MM $(CFLAGS) $$i; done > $@.inc
 
 -include depend.inc
+
+test:
+	echo $(OBJS)

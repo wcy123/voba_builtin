@@ -1,3 +1,8 @@
+#define EXEC_ONCE_TU_NAME "voba.builtin.array"
+#define EXEC_ONCE_DEPENDS {"voba.builtin",NULL}
+#include <voba/include/value.h>
+#include <voba/include/module.h>
+#include "gf.h"
 /* str */
 VOBA_FUNC static  voba_value_t str_array(voba_value_t self,voba_value_t vs)
 {

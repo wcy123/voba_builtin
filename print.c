@@ -1,4 +1,9 @@
-VOBA_FUNC static voba_value_t print(voba_value_t self, voba_value_t a1) 
+#define EXEC_ONCE_TU_NAME "voba.builtin.print"
+#define EXEC_ONCE_DEPENDS {"voba.builtin",NULL}
+#include <voba/include/value.h>
+#include <voba/include/module.h>
+#include "gf.h"
+VOBA_FUNC voba_value_t print(voba_value_t self, voba_value_t a1) 
 {
     int64_t len = voba_array_len(a1);
     for(int i = 0; i < len; ++i){

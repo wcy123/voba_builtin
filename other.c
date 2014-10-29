@@ -1,3 +1,8 @@
+#define EXEC_ONCE_TU_NAME "voba.builtin.other"
+#define EXEC_ONCE_DEPENDS {"voba.builtin",NULL}
+#include <voba/include/value.h>
+#include <voba/include/module.h>
+#include "gf.h"
 VOBA_FUNC static voba_value_t str_funcp(voba_value_t self, voba_value_t v)
 {
     voba_str_t * ret = voba_str_empty();
@@ -107,6 +112,10 @@ VOBA_FUNC static voba_value_t str_symbol(voba_value_t self,voba_value_t args)
                                 VOBA_CONST_CHAR("@0x"),
                                 voba_str_fmt_uint64_t(s,16),NULL));
 }
+VOBA_FUNC voba_value_t get_class(voba_value_t self, voba_value_t v)
+{
+    return voba_get_class(v);
+}
 EXEC_ONCE_PROGN{
     voba_gf_add_class(gf_str,voba_cls_func,voba_make_func(str_funcp));
     voba_gf_add_class(gf_str,voba_cls_closure,voba_make_func(str_closure));
@@ -116,8 +125,4 @@ EXEC_ONCE_PROGN{
     voba_gf_add_class(gf_str,voba_cls_undef,voba_make_func(str_undef));
     voba_gf_add_class(gf_str,voba_cls_bool,voba_make_func(str_boolean));
     voba_gf_add_class(gf_str,voba_cls_symbol,voba_make_func(str_symbol));
-}
-VOBA_FUNC static voba_value_t get_class(voba_value_t self, voba_value_t v)
-{
-    return voba_get_class(v);
 }

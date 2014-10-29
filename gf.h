@@ -1,14 +1,9 @@
 #pragma once
 #define DECLARE_GF(n)                           \
-static voba_value_t gf_##n = VOBA_UNDEF;        \
-EXEC_ONCE_PROGN{                                \
-    gf_ ## n = voba_make_generic_function(# n); \
-}
+    extern voba_value_t gf_##n;                 \
 
 #define BUILTIN_GF(XX)                          \
 XX(str)                                         \
-XX(match)                                       \
-XX(plus)                                        \
 XX(len)                                         \
 XX(iter)                                        \
 XX(apply)                                       \
@@ -17,8 +12,10 @@ XX(gt)                                          \
 XX(gt_eq)                                       \
 XX(lt)                                          \
 XX(lt_eq)                                       \
+XX(plus)                                        \
+XX(mod)                                         \
 
-
+extern voba_value_t gf_match;
 
 BUILTIN_GF(DECLARE_GF);
 

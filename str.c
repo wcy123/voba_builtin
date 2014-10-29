@@ -1,3 +1,9 @@
+#define EXEC_ONCE_TU_NAME "voba.builtin.str"
+#define EXEC_ONCE_DEPENDS {"voba.builtin",NULL}
+#include <voba/include/value.h>
+#include <voba/include/module.h>
+#include "gf.h"
+#include "match.h"
 VOBA_FUNC static voba_value_t str_string(voba_value_t self,voba_value_t v)
 {
     voba_str_t* ret = voba_str_from_char('"',1);
