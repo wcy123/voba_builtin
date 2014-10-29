@@ -40,18 +40,18 @@ VOBA_FUNC voba_value_t range(voba_value_t self, voba_value_t args)
         break;
     }
     }
-    int64_t ifrom = voba_int_value_to_i64(from);
-    int64_t ito = voba_int_value_to_i64(to);
-    int64_t istep = voba_int_value_to_i64(step);
-    if(!((istep < 0 && ito >= ifrom) ||
+    int64_t ifrom = voba_int_value_to_i32(from);
+    int64_t ito = voba_int_value_to_i32(to);
+    int64_t istep = voba_int_value_to_i32(step);
+    if(!((istep < 0 && ifrom >= ito ) ||
          (istep > 0 && ifrom <= ito ))){
         VOBA_THROW(VOBA_CONST_CHAR("infinite loop: "),
                    VOBA_CONST_CHAR(" from = "),
-                   voba_str_fmt_int32_t(ifrom,10),
+                   voba_str_fmt_int64_t(ifrom,10),
                    VOBA_CONST_CHAR(" to = "),
-                   voba_str_fmt_int32_t(ito,10),
+                   voba_str_fmt_int64_t(ito,10),
                    VOBA_CONST_CHAR(" step = "),
-                   voba_str_fmt_int32_t(istep,10));
+                   voba_str_fmt_int64_t(istep,10));
     }
     return voba_make_closure_3(range_next, ifrom, ito, istep);
 }
