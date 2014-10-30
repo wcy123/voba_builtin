@@ -14,6 +14,8 @@
     XX(_3C_3D)/*<=*/                                    \
     XX(_3D_3D)/*==*/                                    \
     XX(_25)/* % */                                      \
+    XX(_3C_3C)/*<<*/                                    \
+    XX(array)                                           \
     XX(cls_i8)                                          \
     XX(cls_i16)                                         \
     XX(cls_i32)                                         \

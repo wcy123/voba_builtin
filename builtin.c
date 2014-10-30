@@ -6,7 +6,7 @@
 #include "gf.h"
 #include "range.h"
 #include "print.h"
-//#include "array.h"
+#include "array.h"
 #include "other.h"
 #define DEFINE_GF(n)                            \
     voba_value_t gf_##n = VOBA_UNDEF;           \
@@ -20,6 +20,7 @@ EXEC_ONCE_PROGN{
     VOBA_DEFINE_MODULE_SYMBOL(s_get_class,voba_make_func(get_class));
     VOBA_DEFINE_MODULE_SYMBOL(s_range, voba_make_func(range));
     VOBA_DEFINE_MODULE_SYMBOL(s_print, voba_make_func(print));
+    VOBA_DEFINE_MODULE_SYMBOL(s_array, voba_make_func(array));
     /* gf */
     VOBA_DEFINE_MODULE_SYMBOL(s_iter, gf_iter);
     VOBA_DEFINE_MODULE_SYMBOL(s_str, gf_str);
@@ -39,6 +40,8 @@ EXEC_ONCE_PROGN{
     VOBA_DEFINE_MODULE_SYMBOL(s__3C_3D, gf_lt_eq);
     /* % mod */
     VOBA_DEFINE_MODULE_SYMBOL(s__25, gf_mod);
+    /* << */
+    VOBA_DEFINE_MODULE_SYMBOL(s__3C_3C, gf_left_shift);
     /* cls */
     VOBA_DEFINE_MODULE_SYMBOL(s_cls_i8, voba_cls_i8);
     VOBA_DEFINE_MODULE_SYMBOL(s_cls_i16, voba_cls_i16);

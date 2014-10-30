@@ -14,6 +14,7 @@ XX(lt)                                          \
 XX(lt_eq)                                       \
 XX(plus)                                        \
 XX(mod)                                         \
+XX(left_shift)                                  \
 
 extern voba_value_t gf_match;
 
