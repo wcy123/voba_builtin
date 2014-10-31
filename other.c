@@ -88,6 +88,11 @@ VOBA_FUNC static voba_value_t str_undef(voba_value_t self,voba_value_t vs)
     voba_str_t *ret = voba_str_from_cstr("undef");
     return voba_make_string(ret);
 }
+VOBA_FUNC static voba_value_t str_done(voba_value_t self,voba_value_t vs)
+{
+    voba_str_t *ret = voba_str_from_cstr("done");
+    return voba_make_string(ret);
+}
 
 VOBA_FUNC static voba_value_t str_boolean(voba_value_t self,voba_value_t vs)
 {
@@ -123,6 +128,7 @@ EXEC_ONCE_PROGN{
     voba_gf_add_class(gf_str,voba_cls_pair,voba_make_func(str_pair));
     voba_gf_add_class(gf_str,voba_cls_la,voba_make_func(str_la));
     voba_gf_add_class(gf_str,voba_cls_undef,voba_make_func(str_undef));
+    voba_gf_add_class(gf_str,voba_cls_done,voba_make_func(str_done));
     voba_gf_add_class(gf_str,voba_cls_bool,voba_make_func(str_boolean));
     voba_gf_add_class(gf_str,voba_cls_symbol,voba_make_func(str_symbol));
 }
