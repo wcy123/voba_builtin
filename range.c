@@ -64,7 +64,7 @@ VOBA_FUNC static voba_value_t range_next(voba_value_t self, voba_value_t args)
     int64_t step = voba_array_at(self,2);
     assert((step < 0 && to >= from) ||
            (step > 0 && from <= to ));
-    voba_value_t ret = VOBA_UNDEF;
+    voba_value_t ret = VOBA_DONE;
     if(from != to){
         ret = voba_make_i32((int32_t) from);
         from += step;

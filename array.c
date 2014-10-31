@@ -40,7 +40,7 @@ VOBA_FUNC static voba_value_t iter_array_next (voba_value_t self, voba_value_t a
     VOBA_ASSERT_N_ARG(self,1);
     voba_value_t i = voba_array_at(self,1);
     int64_t len = voba_array_len(a);
-    voba_value_t ret = VOBA_UNDEF;
+    voba_value_t ret = VOBA_DONE;
     if(i < len){
         ret = voba_array_at(a, i);
         i++;
@@ -51,6 +51,10 @@ VOBA_FUNC static voba_value_t iter_array_next (voba_value_t self, voba_value_t a
 /* apply */
 VOBA_FUNC static voba_value_t apply_array(voba_value_t self, voba_value_t args)
 {
+    int64_t len = voba_array_len(args);
+    if(len == 0){
+        return voba_make_closure_2(iter_array_next,self,0);
+    }
     VOBA_ASSERT_N_ARG(args,0);
     voba_value_t index1 = voba_array_at(args,0);
     VOBA_ASSERT_IS(index1,voba_is_int,0);
