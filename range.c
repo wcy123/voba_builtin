@@ -57,8 +57,7 @@ VOBA_FUNC voba_value_t range(voba_value_t self, voba_value_t args)
 }
 VOBA_FUNC static voba_value_t range_next(voba_value_t self, voba_value_t args)
 {
-    int64_t len = voba_array_len(self);
-    assert(len == 3);
+    assert(voba_array_len(self) == 3);
     int64_t from = voba_array_at(self,0);
     int64_t to   = voba_array_at(self,1);
     int64_t step = voba_array_at(self,2);

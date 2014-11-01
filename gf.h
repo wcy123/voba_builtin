@@ -1,23 +1,19 @@
 #pragma once
-#define DECLARE_GF(n)                           \
-    extern voba_value_t gf_##n;                 \
 
-#define BUILTIN_GF(XX)                          \
-XX(str)                                         \
-XX(len)                                         \
-XX(iter)                                        \
-XX(apply)                                       \
-XX(equal)                                       \
-XX(gt)                                          \
-XX(gt_eq)                                       \
-XX(lt)                                          \
-XX(lt_eq)                                       \
-XX(plus)                                        \
-XX(mod)                                         \
-XX(left_shift)                                  \
+extern voba_value_t gf_str;
+extern voba_value_t gf_len;
+extern voba_value_t gf_iter;
+extern voba_value_t gf_apply;
+extern voba_value_t gf_equal;
+extern voba_value_t gf_gt;
+extern voba_value_t gf_gt_eq;
+extern voba_value_t gf_lt;
+extern voba_value_t gf_lt_eq;
+extern voba_value_t gf_plus;
+extern voba_value_t gf_mod;
+extern voba_value_t gf_left_shift;
+extern voba_value_t s_gf_match;
 
-extern voba_value_t gf_match;
 
-BUILTIN_GF(DECLARE_GF);
 
 

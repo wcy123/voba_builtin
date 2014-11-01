@@ -16,6 +16,10 @@
     XX(_25)/* % */                                      \
     XX(_3C_3C)/*<<*/                                    \
     XX(array)                                           \
+    XX(eq)                                              \
+    XX(i32_mod)                                         \
+    XX(eq_i32_mod_0)                                    \
+    XX(iter_array)                                      \
     XX(cls_i8)                                          \
     XX(cls_i16)                                         \
     XX(cls_i32)                                         \

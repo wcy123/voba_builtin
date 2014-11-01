@@ -1,5 +1,5 @@
 #define EXEC_ONCE_TU_NAME "voba.builtin"
-#define EXEC_ONCE_DEPENDS {"voba_module",NULL}
+#define EXEC_ONCE_DEPENDS {"voba_module","voba.builtin.gf", NULL}
 #include <voba/include/value.h>
 #include <voba/include/module.h>
 #include "builtin.h"
@@ -8,12 +8,45 @@
 #include "print.h"
 #include "array.h"
 #include "other.h"
-#define DEFINE_GF(n)                            \
-    voba_value_t gf_##n = VOBA_UNDEF;           \
-EXEC_ONCE_PROGN{                                \
-    gf_ ## n = voba_make_generic_function(# n); \
+
+VOBA_FUNC static voba_value_t f_eq(voba_value_t self, voba_value_t args)
+{
+    //VOBA_ASSERT_N_ARG(args,0);
+    voba_value_t a = voba_array_at(args,0);
+    //VOBA_ASSERT_N_ARG(args,1);
+    voba_value_t b = voba_array_at(args,1);
+    return a == b ? VOBA_TRUE:VOBA_FALSE;
 }
-BUILTIN_GF(DEFINE_GF);
+VOBA_FUNC static voba_value_t i32_mod(voba_value_t self, voba_value_t args)
+{
+    //VOBA_ASSERT_N_ARG(args,0);
+    // voba_value_t a = voba_array_at(args,0);
+    voba_value_t a = voba_to_pointer(voba_value_t*, args)[1];
+    //VOBA_ASSERT_CLS(a, voba_cls_i32, 0);
+    //VOBA_ASSERT_N_ARG(args,1);
+    voba_value_t b = voba_array_at(args,1);
+    //VOBA_ASSERT_CLS(b, voba_cls_i32, 1);
+    a = (a>>8);
+    b = (b>>8);
+    voba_value_t c = a%b;
+    return voba_make_i32((int32_t)c);
+}
+VOBA_FUNC static voba_value_t eq_i32_mod_0(voba_value_t self, voba_value_t args)
+{
+    //VOBA_ASSERT_N_ARG(args,0);
+    voba_value_t a = voba_to_pointer(voba_value_t*, args)[1];
+    // voba_value_t a = voba_array_at(args,0);
+    //VOBA_ASSERT_CLS(a, voba_cls_i32, 0);
+    //VOBA_ASSERT_N_ARG(args,1);
+    //
+    voba_value_t b = voba_to_pointer(voba_value_t*, args)[2];
+    // voba_value_t b = voba_array_at(args,1);
+    //VOBA_ASSERT_CLS(b, voba_cls_i32, 1);
+    a = (a>>8);
+    b = (b>>8);
+    voba_value_t c = a%b;
+    return c == 0 ? VOBA_TRUE: VOBA_FALSE;
+}
 
 EXEC_ONCE_PROGN{
     /* functions */
@@ -21,11 +54,14 @@ EXEC_ONCE_PROGN{
     VOBA_DEFINE_MODULE_SYMBOL(s_range, voba_make_func(range));
     VOBA_DEFINE_MODULE_SYMBOL(s_print, voba_make_func(print));
     VOBA_DEFINE_MODULE_SYMBOL(s_array, voba_make_func(array));
+    VOBA_DEFINE_MODULE_SYMBOL(s_eq, voba_make_func(f_eq));
+    VOBA_DEFINE_MODULE_SYMBOL(s_i32_mod, voba_make_func(i32_mod));
+    VOBA_DEFINE_MODULE_SYMBOL(s_eq_i32_mod_0, voba_make_func(eq_i32_mod_0));
+    VOBA_DEFINE_MODULE_SYMBOL(s_iter_array, voba_make_func(iter_array));
     /* gf */
     VOBA_DEFINE_MODULE_SYMBOL(s_iter, gf_iter);
     VOBA_DEFINE_MODULE_SYMBOL(s_str, gf_str);
     VOBA_DEFINE_MODULE_SYMBOL(s_len, gf_len);
-    gf_match = voba_module_var(VOBA_MODULE_LANG_ID, VOBA_MODULE_LANG_ID,VOBA_MODULE_LANG_MATCH);
     /* + */
     VOBA_DEFINE_MODULE_SYMBOL(s__2B, gf_plus);
     /* == equal*/
@@ -55,6 +91,9 @@ EXEC_ONCE_PROGN{
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)
 {
+#ifndef VOBA_MODULE_DIRTY_HACK
     exec_once_init();
+#endif
     return VOBA_NIL;
+    
 }
