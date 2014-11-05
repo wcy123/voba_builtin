@@ -5,7 +5,6 @@
     XX(str)                                             \
     XX(print)                                           \
     XX(len)                                             \
-    XX(iter)                                            \
     XX(range)                                           \
     XX(_2B)/*+*/                                        \
     XX(_3E)/*>*/                                        \
@@ -19,7 +18,6 @@
     XX(eq)                                              \
     XX(i32_mod)                                         \
     XX(eq_i32_mod_0)                                    \
-    XX(iter_array)                                      \
     XX(cls_i8)                                          \
     XX(cls_i16)                                         \
     XX(cls_i32)                                         \

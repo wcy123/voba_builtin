@@ -57,9 +57,7 @@ EXEC_ONCE_PROGN{
     VOBA_DEFINE_MODULE_SYMBOL(s_eq, voba_make_func(f_eq));
     VOBA_DEFINE_MODULE_SYMBOL(s_i32_mod, voba_make_func(i32_mod));
     VOBA_DEFINE_MODULE_SYMBOL(s_eq_i32_mod_0, voba_make_func(eq_i32_mod_0));
-    VOBA_DEFINE_MODULE_SYMBOL(s_iter_array, voba_make_func(iter_array));
     /* gf */
-    VOBA_DEFINE_MODULE_SYMBOL(s_iter, gf_iter);
     VOBA_DEFINE_MODULE_SYMBOL(s_str, gf_str);
     VOBA_DEFINE_MODULE_SYMBOL(s_len, gf_len);
     /* + */

@@ -23,15 +23,6 @@ VOBA_FUNC static  voba_value_t str_array(voba_value_t self,voba_value_t vs)
     return voba_make_string(ret);
 }
 /* iter */
-VOBA_FUNC static voba_value_t iter_array_next (voba_value_t self, voba_value_t args);
-VOBA_FUNC voba_value_t iter_array (voba_value_t self, voba_value_t args)
-{
-    VOBA_ASSERT_N_ARG(args,0);
-    voba_value_t a = voba_array_at(args,0);
-    VOBA_ASSERT_CLS(a,voba_cls_array,0);
-    voba_value_t ret = voba_make_closure_2(iter_array_next,a,0);
-    return ret;
-}
 VOBA_FUNC static voba_value_t iter_array_next (voba_value_t self, voba_value_t args)
 {
     //VOBA_ASSERT_N_ARG(self,0);
@@ -49,6 +40,10 @@ VOBA_FUNC static voba_value_t iter_array_next (voba_value_t self, voba_value_t a
         voba_array_set(self,1,i);
     }
     return ret;
+}
+VOBA_FUNC static voba_value_t array_iterator(voba_value_t self, voba_value_t args)
+{
+    return voba_make_closure_2(iter_array_next,voba_array_at(args,0),0);
 }
 /* apply */
 VOBA_FUNC static voba_value_t apply_array(voba_value_t self, voba_value_t args)
@@ -90,7 +85,7 @@ VOBA_FUNC voba_value_t array (voba_value_t self, voba_value_t args)
 
 EXEC_ONCE_PROGN{
     voba_gf_add_class(gf_str,voba_cls_array,voba_make_func(str_array));
-    voba_gf_add_class(gf_iter, voba_cls_array, voba_make_func(iter_array));
+    voba_gf_add_class(voba_symbol_value(s_gf_iter), voba_cls_array, voba_make_func(array_iterator));
     voba_gf_add_class(gf_len, voba_cls_array,voba_make_func(len_array));
     voba_gf_add_class(gf_left_shift, voba_cls_array,voba_make_func(array_left_shift));
     voba_gf_add_class(voba_gf_apply,voba_cls_array,voba_make_func(apply_array));

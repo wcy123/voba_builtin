@@ -26,7 +26,6 @@ VOBA_FUNC static voba_value_t lt_eq(voba_value_t self, voba_value_t args)
 }
 voba_value_t gf_str = VOBA_UNDEF;
 voba_value_t gf_len = VOBA_UNDEF;
-voba_value_t gf_iter = VOBA_UNDEF;
 voba_value_t gf_apply = VOBA_UNDEF;
 voba_value_t gf_equal = VOBA_UNDEF;
 voba_value_t gf_gt = VOBA_UNDEF;
@@ -37,11 +36,10 @@ voba_value_t gf_plus = VOBA_UNDEF;
 voba_value_t gf_mod = VOBA_UNDEF;
 voba_value_t gf_left_shift = VOBA_UNDEF;
 voba_value_t s_gf_match = VOBA_UNDEF;
-
+voba_value_t s_gf_iter = VOBA_UNDEF;
 EXEC_ONCE_PROGN{
     gf_str = voba_make_generic_function("gf_str",0);
     gf_len = voba_make_generic_function("len",0);
-    gf_iter = voba_make_generic_function("iter",0);
     gf_apply = voba_make_generic_function("apply",0);
     gf_equal = voba_make_generic_function("==",0);
     gf_gt = voba_make_generic_function(">",0);
@@ -52,7 +50,7 @@ EXEC_ONCE_PROGN{
     gf_mod = voba_make_generic_function("%",0);
     gf_left_shift = voba_make_generic_function("<<",0);
     s_gf_match = voba_module_var(VOBA_MODULE_LANG_ID, VOBA_MODULE_LANG_ID,VOBA_MODULE_LANG_MATCH);
-    voba_symbol_set_value(s_gf_match,voba_make_generic_function("match",0));
+    s_gf_iter = voba_module_var(VOBA_MODULE_LANG_ID, VOBA_MODULE_LANG_ID,VOBA_MODULE_LANG_ITER);
 }
 
 

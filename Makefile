@@ -28,6 +28,7 @@ C_SRCS += integer.c
 C_SRCS += range.c
 C_SRCS += print.c
 C_SRCS += array.c
+C_SRCS += function.c
 C_SRCS += match.c
 C_SRCS += str.c
 C_SRCS += other.c
