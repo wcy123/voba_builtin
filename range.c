@@ -1,7 +1,7 @@
 #define EXEC_ONCE_TU_NAME "voba.builtin.range"
 #define EXEC_ONCE_DEPENDS {"voba.builtin",NULL}
-#include <voba/include/value.h>
-#include <voba/include/module.h>
+#include <voba/value.h>
+#include <voba/module.h>
 #include "gf.h"
 /* range */
 VOBA_FUNC static voba_value_t range_next(voba_value_t self, voba_value_t args);

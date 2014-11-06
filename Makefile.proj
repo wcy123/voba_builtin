@@ -1,0 +1,37 @@
+CXXFLAGS += -fPIC
+CFLAGS += -fPIC
+
+CFLAGS += -D_BSD_SOURCE # otherwise realpath is not defined.
+
+SRCS_C += builtin.c
+SRCS_C += gf.c
+SRCS_C += integer.c
+SRCS_C += range.c
+SRCS_C += print.c
+SRCS_C += array.c
+SRCS_C += function.c
+SRCS_C += match.c
+SRCS_C += str.c
+SRCS_C += other.c
+
+
+libbuiltin.so: $(OBJS)
+	$(CC) -shared -Wl,-soname,$@ -o $@ $^  $(LDFLAGS)
+
+
+install_files += $(libdir)/voba/core/libbuiltin.so
+$(libdir)/voba/core/libbuiltin.so: libbuiltin.so
+	$(INSTALL) $< $@
+
+install_files += $(libdir)/voba/core/builtin.h
+$(libdir)/voba/core/builtin.h : builtin.h
+	$(INSTALL) $< $@
+
+
+dirs += $(libdir)/voba/core
+
+
+# Local Variables:
+# mode:makefile
+# coding: utf-8-unix
+# End:

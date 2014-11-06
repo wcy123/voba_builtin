@@ -30,7 +30,7 @@
 //(gf_apply)                              
 //(apply)                                 
 
-#define VOBA_MODULE_NAME "voba_builtin"
-#include <voba/include/module_end.h>
+#define VOBA_MODULE_NAME "builtin"
+#include <voba/module_end.h>
 
 

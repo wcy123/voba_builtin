@@ -1,7 +1,7 @@
 #define EXEC_ONCE_TU_NAME "voba.builtin"
 #define EXEC_ONCE_DEPENDS {"voba_module","voba.builtin.gf", NULL}
-#include <voba/include/value.h>
-#include <voba/include/module.h>
+#include <voba/value.h>
+#include <voba/module.h>
 #include "builtin.h"
 #include "gf.h"
 #include "range.h"
