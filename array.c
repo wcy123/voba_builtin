@@ -32,13 +32,13 @@ VOBA_FUNC static voba_value_t iter_array_next (voba_value_t self, voba_value_t a
     if(i < len){
         ret = voba_array_at(a, i);
         i++;
-        voba_array_set(self,1,i);
+        voba_tuple_set(self,1,i);
     }
     return ret;
 }
 VOBA_FUNC static voba_value_t array_iterator(voba_value_t self, voba_value_t args)
 {
-    VOBA_ASSERT_N_ARG(args,1);
+    VOBA_ASSERT_N_ARG(args,0);
     voba_value_t a = voba_tuple_at(args,0);
     VOBA_ASSERT_CLS(a,voba_cls_array,0);
     return voba_make_closure_2(iter_array_next,a,0);
@@ -72,7 +72,7 @@ VOBA_FUNC static voba_value_t array_left_shift(voba_value_t self, voba_value_t a
     voba_value_t a = voba_tuple_at(args,0);
     VOBA_ASSERT_CLS(a,voba_cls_array,0);
     for(int64_t i = 1; i < len; ++i){
-        a = voba_array_push(a,voba_array_at(args,i));
+        a = voba_array_push(a,voba_tuple_at(args,i));
     }
     return a;
 }
