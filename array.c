@@ -6,9 +6,9 @@
 /* str */
 VOBA_FUNC static  voba_value_t str_array(voba_value_t self,voba_value_t vs)
 {
-    voba_value_t v = voba_array_at(vs,0);
-    int64_t len = voba_array_len(v);
-    voba_value_t * p = voba_array_base(v);
+    voba_value_t v = voba_tuple_at(vs,0);
+    int64_t len = voba_tuple_len(v);
+    voba_value_t * p = voba_tuple_base(v);
     voba_str_t* ret = voba_str_empty();
     ret = voba_strcat_char(ret,'[');
     for(int i = 0; i < len ; ++i){
@@ -17,7 +17,7 @@ VOBA_FUNC static  voba_value_t str_array(voba_value_t self,voba_value_t vs)
         }
         voba_value_t args[] = {1,p[i]};
         ret = voba_strcat(ret,
-                          voba_value_to_str(voba_apply(gf_str,voba_make_array(args))));
+                          voba_value_to_str(voba_apply(gf_str,voba_make_tuple(args))));
     }
     ret = voba_strcat_char(ret,']');
     return voba_make_string(ret);
@@ -25,13 +25,8 @@ VOBA_FUNC static  voba_value_t str_array(voba_value_t self,voba_value_t vs)
 /* iter */
 VOBA_FUNC static voba_value_t iter_array_next (voba_value_t self, voba_value_t args)
 {
-    //VOBA_ASSERT_N_ARG(self,0);
-    // voba_value_t a = voba_array_at(self,0);
-    voba_value_t a = voba_to_pointer(voba_value_t*, self)[1];
-    //VOBA_ASSERT_CLS(a,voba_cls_array,0);
-    //VOBA_ASSERT_N_ARG(self,1);
-    // voba_value_t i = voba_array_at(self,1);
-    voba_value_t i = voba_to_pointer(voba_value_t*, self)[2];
+    voba_value_t a = voba_tuple_at(self,0);
+    voba_value_t i = voba_tuple_at(self,1);
     int64_t len = voba_array_len(a);
     voba_value_t ret = VOBA_DONE;
     if(i < len){
@@ -43,17 +38,20 @@ VOBA_FUNC static voba_value_t iter_array_next (voba_value_t self, voba_value_t a
 }
 VOBA_FUNC static voba_value_t array_iterator(voba_value_t self, voba_value_t args)
 {
-    return voba_make_closure_2(iter_array_next,voba_array_at(args,0),0);
+    VOBA_ASSERT_N_ARG(args,1);
+    voba_value_t a = voba_tuple_at(args,0);
+    VOBA_ASSERT_CLS(a,voba_cls_array,0);
+    return voba_make_closure_2(iter_array_next,a,0);
 }
 /* apply */
 VOBA_FUNC static voba_value_t apply_array(voba_value_t self, voba_value_t args)
 {
-    int64_t len = voba_array_len(args);
+    int64_t len = voba_tuple_len(args);
     if(len == 0){
         return voba_make_closure_2(iter_array_next,self,0);
     }
     VOBA_ASSERT_N_ARG(args,0);
-    voba_value_t index1 = voba_array_at(args,0);
+    voba_value_t index1 = voba_tuple_at(args,0);
     VOBA_ASSERT_IS(index1,voba_is_int,0);
     int64_t index = (index1 >> 8);
     return voba_array_at(self,index);
@@ -62,16 +60,16 @@ VOBA_FUNC static voba_value_t apply_array(voba_value_t self, voba_value_t args)
 VOBA_FUNC static voba_value_t len_array(voba_value_t self, voba_value_t args)
 {
     VOBA_ASSERT_N_ARG(args,0);
-    voba_value_t a = voba_array_at(args,0);
+    voba_value_t a = voba_tuple_at(args,0);
     VOBA_ASSERT_CLS(a,voba_cls_array,0);
     return voba_make_u32((uint32_t)voba_array_len(a));
 }
 /* gf << */
 VOBA_FUNC static voba_value_t array_left_shift(voba_value_t self, voba_value_t args)
 {
-    int64_t len = voba_array_len(args);
+    int64_t len = voba_tuple_len(args);
     VOBA_ASSERT_N_ARG(args,0);
-    voba_value_t a = voba_array_at(args,0);
+    voba_value_t a = voba_tuple_at(args,0);
     VOBA_ASSERT_CLS(a,voba_cls_array,0);
     for(int64_t i = 1; i < len; ++i){
         a = voba_array_push(a,voba_array_at(args,i));
@@ -80,7 +78,7 @@ VOBA_FUNC static voba_value_t array_left_shift(voba_value_t self, voba_value_t a
 }
 VOBA_FUNC voba_value_t array (voba_value_t self, voba_value_t args)
 {
-    return voba_array_copy(args);
+    return voba_array_from_tuple(args);
 }
 
 EXEC_ONCE_PROGN{

@@ -7,9 +7,9 @@
 VOBA_FUNC static voba_value_t range_next(voba_value_t self, voba_value_t args);
 VOBA_FUNC voba_value_t range(voba_value_t self, voba_value_t args)
 {
-    int64_t len = voba_array_len(args);
+    int64_t len = voba_tuple_len(args);
     VOBA_ASSERT_N_ARG( args, 0);
-    voba_value_t a1 = voba_array_at( args, 0);
+    voba_value_t a1 = voba_tuple_at( args, 0);
     VOBA_ASSERT_IS(a1,voba_is_int, 0);
     voba_value_t from = voba_make_i32(0);
     voba_value_t to = voba_make_i32(0);
@@ -23,16 +23,16 @@ VOBA_FUNC voba_value_t range(voba_value_t self, voba_value_t args)
         to = a1;
         break;
     case 2:{
-        voba_value_t a2 = voba_array_at( args, 1);
+        voba_value_t a2 = voba_tuple_at( args, 1);
         VOBA_ASSERT_IS(a2, voba_is_int, 1);
         from = a1;
         to = a2;
         break;
     }
     case 3:{
-        voba_value_t a2 = voba_array_at( args, 1);
+        voba_value_t a2 = voba_tuple_at( args, 1);
         VOBA_ASSERT_IS(a2, voba_is_int, 1);
-        voba_value_t a3 = voba_array_at( args, 2);
+        voba_value_t a3 = voba_tuple_at( args, 2);
         VOBA_ASSERT_IS(a3, voba_is_int, 2);
         from = a1;
         to = a2;
@@ -57,17 +57,17 @@ VOBA_FUNC voba_value_t range(voba_value_t self, voba_value_t args)
 }
 VOBA_FUNC static voba_value_t range_next(voba_value_t self, voba_value_t args)
 {
-    assert(voba_array_len(self) == 3);
-    int64_t from = voba_array_at(self,0);
-    int64_t to   = voba_array_at(self,1);
-    int64_t step = voba_array_at(self,2);
+    assert(voba_tuple_len(self) == 3);
+    int64_t from = voba_tuple_at(self,0);
+    int64_t to   = voba_tuple_at(self,1);
+    int64_t step = voba_tuple_at(self,2);
     assert((step < 0 && to >= from) ||
            (step > 0 && from <= to ));
     voba_value_t ret = VOBA_DONE;
     if(from != to){
         ret = voba_make_i32((int32_t) from);
         from += step;
-        voba_array_set(self,0,from);
+        voba_tuple_set(self,0,from);
     }
     return ret;
 }

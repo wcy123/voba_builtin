@@ -7,7 +7,7 @@
 VOBA_FUNC voba_value_t str_int (voba_value_t self,voba_value_t args)
 {
     VOBA_ASSERT_N_ARG(args,0);
-    voba_value_t a1 = voba_array_at(args,0);
+    voba_value_t a1 = voba_tuple_at(args,0);
     int64_t a2  = voba_int_value_to_i32(a1);
     voba_str_t* a3 = voba_str_fmt_int64_t(a2,10);
     voba_value_t ret = voba_make_string(a3);
@@ -20,9 +20,9 @@ VOBA_FUNC static voba_value_t equal_int(voba_value_t self, voba_value_t args)
 {
     voba_value_t ret = VOBA_FALSE;
     VOBA_ASSERT_N_ARG(args,0);
-    voba_value_t a = voba_array_at(args,0);
+    voba_value_t a = voba_tuple_at(args,0);
     VOBA_ASSERT_N_ARG(args,1);
-    voba_value_t b = voba_array_at(args,1);
+    voba_value_t b = voba_tuple_at(args,1);
     if(voba_is_int(b)){
         int64_t a1 = voba_int_value_to_i32(a);
         int64_t b1 = voba_int_value_to_i32(b);
@@ -36,9 +36,9 @@ VOBA_FUNC static voba_value_t gt_int(voba_value_t self, voba_value_t args)
 {
     voba_value_t ret = VOBA_FALSE;
     VOBA_ASSERT_N_ARG(args,0);
-    voba_value_t a = voba_array_at(args,0);
+    voba_value_t a = voba_tuple_at(args,0);
     VOBA_ASSERT_N_ARG(args,1);
-    voba_value_t b = voba_array_at(args,1);
+    voba_value_t b = voba_tuple_at(args,1);
     if(voba_is_int(b)){
         int64_t a1 = voba_int_value_to_i32(a);
         int64_t b1 = voba_int_value_to_i32(b);
@@ -53,9 +53,9 @@ VOBA_FUNC static voba_value_t plus_int(voba_value_t self, voba_value_t args)
 {
     voba_value_t ret = voba_make_i32(0);
     int64_t r = 0;
-    int64_t len = voba_array_len(args);
+    int64_t len = voba_tuple_len(args);
     for(int64_t i = 0; i < len; ++i){
-        voba_value_t x = voba_array_at(args,i);
+        voba_value_t x = voba_tuple_at(args,i);
         if(voba_is_int(x)){
             r += voba_int_value_to_i32(x);
         }else{
@@ -75,10 +75,10 @@ VOBA_FUNC static voba_value_t mod_int(voba_value_t self, voba_value_t args)
 {
     voba_value_t ret = VOBA_UNDEF;
     //VOBA_ASSERT_N_ARG(args,0);
-    voba_value_t a = voba_array_at(args,0);
+    voba_value_t a = voba_tuple_at(args,0);
     //VOBA_ASSERT_IS(a, voba_is_int, 0);
     // VOBA_ASSERT_N_ARG(args,1);
-    voba_value_t b = voba_array_at(args,1);
+    voba_value_t b = voba_tuple_at(args,1);
     // VOBA_ASSERT_IS(b, voba_is_int, 1);
 
     int64_t a1 = voba_int_value_to_i32(a);

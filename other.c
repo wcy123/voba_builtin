@@ -3,28 +3,28 @@
 #include <voba/value.h>
 #include <voba/module.h>
 #include "gf.h"
-VOBA_FUNC static voba_value_t str_funcp(voba_value_t self, voba_value_t v)
+VOBA_FUNC static voba_value_t str_funcp(voba_value_t self, voba_value_t args)
 {
     voba_str_t * ret = voba_str_empty();
     ret = voba_strcat_cstr(ret,"<funcp ");
-    ret = voba_strcat(ret,voba_str_fmt_pointer(((void*)voba_array_at(v,0))));
+    ret = voba_strcat(ret,voba_str_fmt_pointer(((void*)voba_tuple_at(args,0))));
     ret = voba_strcat_cstr(ret," >");    
     return voba_make_string(ret);
 }
-VOBA_FUNC static voba_value_t str_closure(voba_value_t self,voba_value_t vs)
+VOBA_FUNC static voba_value_t str_closure(voba_value_t self,voba_value_t args)
 {
     voba_str_t *ret = voba_str_empty();
     ret = voba_strcat_cstr(ret,"<closure ");
-    ret = voba_strcat(ret,voba_str_fmt_pointer((void*) (intptr_t)voba_closure_func(voba_array_at(vs,0))));
+    ret = voba_strcat(ret,voba_str_fmt_pointer((void*) (intptr_t)voba_closure_func(voba_tuple_at(args,0))));
     ret = voba_strcat_char(ret,',');
-    ret = voba_strcat(ret,voba_str_fmt_uint32_t(voba_array_len(voba_closure_array(voba_array_at(vs,0))),10));
+    ret = voba_strcat(ret,voba_str_fmt_uint32_t(voba_tuple_len(voba_closure_tuple(voba_tuple_at(args,0))),10));
     ret = voba_strcat_char(ret,'>');
     return voba_make_string(ret);
 }
-VOBA_FUNC static voba_value_t str_pair(voba_value_t self,voba_value_t vs)
+VOBA_FUNC static voba_value_t str_pair(voba_value_t self,voba_value_t args)
 {
-    voba_value_t args[] = {1, VOBA_NIL};
-    voba_value_t v = voba_array_at(vs,0);
+    voba_value_t tmp_args[] = {1, VOBA_NIL};
+    voba_value_t v = voba_tuple_at(args,0);
     voba_str_t* ret = voba_str_empty();
     ret = voba_strcat_char(ret,'(');
     int i = 0; 
@@ -33,19 +33,19 @@ VOBA_FUNC static voba_value_t str_pair(voba_value_t self,voba_value_t vs)
         if(i!=0){
             ret = voba_strcat_char(ret,',');
         }
-        args[1] = voba_head(x);
+        tmp_args[1] = voba_head(x);
         ret = voba_strcat(ret,
                           voba_value_to_str(
-                              voba_apply(gf_str,voba_make_array(args))));
+                              voba_apply(gf_str,voba_make_tuple(tmp_args))));
         x = voba_tail(x);
         if(voba_is_nil(x)){
             break;
         }else if(!voba_is_a(x,voba_cls_pair)){
             ret = voba_strcat_char(ret,'.');
-            args[1] = x;
+            tmp_args[1] = x;
             ret = voba_strcat(ret,
                               voba_value_to_str(
-                                  voba_apply(gf_str,voba_make_array(args))));
+                                  voba_apply(gf_str,voba_make_tuple(tmp_args))));
             break;
         }
         i ++;
@@ -53,10 +53,10 @@ VOBA_FUNC static voba_value_t str_pair(voba_value_t self,voba_value_t vs)
     ret = voba_strcat_char(ret,')');
     return voba_make_string(ret);
 }
-VOBA_FUNC static voba_value_t str_la(voba_value_t self,voba_value_t vs)
+VOBA_FUNC static voba_value_t str_la(voba_value_t self,voba_value_t args)
 {
-    voba_value_t args[] = {1, VOBA_NIL};
-    voba_value_t v = voba_array_at(vs,0);
+    voba_value_t tmp_args[] = {1, VOBA_NIL};
+    voba_value_t v = voba_tuple_at(args,0);
     voba_str_t* ret = voba_str_empty();
     ret = voba_strcat_char(ret,'[');
     int i = 0; 
@@ -65,10 +65,10 @@ VOBA_FUNC static voba_value_t str_la(voba_value_t self,voba_value_t vs)
         if(i!=0){
             ret = voba_strcat_char(ret,',');
         }
-        args[1] = voba_la_car(x);
+        tmp_args[1] = voba_la_car(x);
         ret = voba_strcat(ret,
                           voba_value_to_str(
-                              voba_apply(gf_str,voba_make_array(args))));
+                              voba_apply(gf_str,voba_make_tuple(tmp_args))));
         x = voba_la_cdr(x);
         if(voba_la_is_nil(x)){
             break;
@@ -78,25 +78,25 @@ VOBA_FUNC static voba_value_t str_la(voba_value_t self,voba_value_t vs)
     ret = voba_strcat_char(ret,']');
     return voba_make_string(ret);
 }
-VOBA_FUNC static voba_value_t str_nil(voba_value_t self,voba_value_t vs)
+VOBA_FUNC static voba_value_t str_nil(voba_value_t self,voba_value_t args)
 {
     voba_str_t *ret = voba_str_from_cstr("nil");
     return voba_make_string(ret);
 }
-VOBA_FUNC static voba_value_t str_undef(voba_value_t self,voba_value_t vs)
+VOBA_FUNC static voba_value_t str_undef(voba_value_t self,voba_value_t args)
 {
     voba_str_t *ret = voba_str_from_cstr("undef");
     return voba_make_string(ret);
 }
-VOBA_FUNC static voba_value_t str_done(voba_value_t self,voba_value_t vs)
+VOBA_FUNC static voba_value_t str_done(voba_value_t self,voba_value_t args)
 {
     voba_str_t *ret = voba_str_from_cstr("done");
     return voba_make_string(ret);
 }
 
-VOBA_FUNC static voba_value_t str_boolean(voba_value_t self,voba_value_t vs)
+VOBA_FUNC static voba_value_t str_boolean(voba_value_t self,voba_value_t args)
 {
-    voba_value_t v = voba_array_at(vs,0);
+    voba_value_t v = voba_tuple_at(args,0);
     if(voba_is_true(v)){
         voba_str_t *ret = voba_str_from_cstr("TRUE");
         return voba_make_string(ret);
@@ -111,7 +111,7 @@ VOBA_FUNC static voba_value_t str_boolean(voba_value_t self,voba_value_t vs)
 }
 VOBA_FUNC static voba_value_t str_symbol(voba_value_t self,voba_value_t args)
 {
-    voba_value_t s = voba_array_at(args,0);
+    voba_value_t s = voba_tuple_at(args,0);
     return voba_make_string(voba_vstrcat(
                                 voba_strdup(voba_value_to_str(voba_symbol_name(s))),
                                 VOBA_CONST_CHAR("@0x"),
