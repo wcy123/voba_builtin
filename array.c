@@ -7,15 +7,14 @@
 VOBA_FUNC static  voba_value_t str_array(voba_value_t self,voba_value_t vs)
 {
     voba_value_t v = voba_tuple_at(vs,0);
-    int64_t len = voba_tuple_len(v);
-    voba_value_t * p = voba_tuple_base(v);
+    int64_t len = voba_array_len(v);
     voba_str_t* ret = voba_str_empty();
     ret = voba_strcat_char(ret,'[');
     for(int i = 0; i < len ; ++i){
         if(i!=0){
             ret = voba_strcat_char(ret,',');
         }
-        voba_value_t args[] = {1,p[i]};
+        voba_value_t args[] = {1,voba_array_at(v,i)};
         ret = voba_strcat(ret,
                           voba_value_to_str(voba_apply(gf_str,voba_make_tuple(args))));
     }
