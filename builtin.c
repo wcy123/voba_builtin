@@ -21,10 +21,10 @@ VOBA_FUNC static voba_value_t i32_mod(voba_value_t self, voba_value_t args)
 {
     VOBA_ASSERT_N_ARG(args,0);
     voba_value_t a = voba_tuple_at(args,0);
-    VOBA_ASSERT_CLS(a, voba_cls_i32, 0);
+    VOBA_ASSERT_ARG_ISA(a, voba_cls_i32, 0);
     VOBA_ASSERT_N_ARG(args,1);
     voba_value_t b = voba_tuple_at(args,1);
-    VOBA_ASSERT_CLS(b, voba_cls_i32, 1);
+    VOBA_ASSERT_ARG_ISA(b, voba_cls_i32, 1);
     a = (a>>8);
     b = (b>>8);
     voba_value_t c = a%b;
@@ -34,10 +34,10 @@ VOBA_FUNC static voba_value_t eq_i32_mod_0(voba_value_t self, voba_value_t args)
 {
     VOBA_ASSERT_N_ARG(args,0);
     voba_value_t a = voba_tuple_at(args,0);
-    VOBA_ASSERT_CLS(a, voba_cls_i32, 0);
+    VOBA_ASSERT_ARG_ISA(a, voba_cls_i32, 0);
     VOBA_ASSERT_N_ARG(args,1);
     voba_value_t b = voba_tuple_at(args,1);
-    VOBA_ASSERT_CLS(b, voba_cls_i32, 1);
+    VOBA_ASSERT_ARG_ISA(b, voba_cls_i32, 1);
     a = (a>>8);
     b = (b>>8);
     voba_value_t c = a%b;

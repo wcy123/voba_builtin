@@ -76,10 +76,10 @@ VOBA_FUNC static voba_value_t mod_int(voba_value_t self, voba_value_t args)
     voba_value_t ret = VOBA_UNDEF;
     //VOBA_ASSERT_N_ARG(args,0);
     voba_value_t a = voba_tuple_at(args,0);
-    //VOBA_ASSERT_IS(a, voba_is_int, 0);
+    //VOBA_ASSERT_ARG_FUN(a, voba_is_int, 0);
     // VOBA_ASSERT_N_ARG(args,1);
     voba_value_t b = voba_tuple_at(args,1);
-    // VOBA_ASSERT_IS(b, voba_is_int, 1);
+    // VOBA_ASSERT_ARG_FUN(b, voba_is_int, 1);
 
     int64_t a1 = voba_int_value_to_i32(a);
     int64_t b1 = voba_int_value_to_i32(b);
