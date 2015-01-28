@@ -30,7 +30,8 @@ $(libdir)/voba/core/builtin.h : builtin.h
 
 dirs += $(libdir)/voba/core
 
-
+test:
+	echo no test
 # Local Variables:
 # mode:makefile
 # coding: utf-8-unix
