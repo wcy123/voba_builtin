@@ -1,5 +1,7 @@
 #define EXEC_ONCE_TU_NAME "voba.builtin"
-#define EXEC_ONCE_DEPENDS {"voba.module","voba.builtin.gf", NULL}
+// "voba.builtin.gf": generic function objects must be defined first
+// "voba.module": I don't remember why depends on it.
+#define EXEC_ONCE_DEPENDS {"voba.builtin.gf", NULL}
 #include <voba/value.h>
 #include <voba/module.h>
 #include "builtin.h"
