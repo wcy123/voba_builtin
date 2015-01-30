@@ -85,9 +85,5 @@ EXEC_ONCE_PROGN{
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)
 {
-#ifndef VOBA_MODULE_DIRTY_HACK
-    exec_once_init();
-#endif
     return VOBA_NIL;
-    
 }
