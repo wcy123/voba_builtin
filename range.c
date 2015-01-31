@@ -1,5 +1,3 @@
-#define EXEC_ONCE_TU_NAME "voba.builtin.range"
-#define EXEC_ONCE_DEPENDS {"voba.builtin",NULL}
 #include <voba/value.h>
 #include <voba/module.h>
 #include "gf.h"
