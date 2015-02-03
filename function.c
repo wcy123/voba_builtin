@@ -1,5 +1,5 @@
 #define EXEC_ONCE_TU_NAME "voba.builtin.function"
-#define EXEC_ONCE_DEPENDS {"voba.builtin",NULL}
+#define EXEC_ONCE_DEPENDS {"voba.builtin"}
 #include <voba/value.h>
 #include <voba/module.h>
 #include "gf.h"
