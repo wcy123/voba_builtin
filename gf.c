@@ -49,8 +49,8 @@ EXEC_ONCE_PROGN{
     gf_plus = voba_make_generic_function("+",0);
     gf_mod = voba_make_generic_function("%",0);
     gf_left_shift = voba_make_generic_function("<<",0);
-    s_gf_match = voba_module_var(VOBA_MODULE_LANG_ID, VOBA_MODULE_LANG_ID,VOBA_MODULE_LANG_MATCH);
-    s_gf_iter = voba_module_var(VOBA_MODULE_LANG_ID, VOBA_MODULE_LANG_ID,VOBA_MODULE_LANG_ITER);
+    s_gf_match = voba_module_var(VOBA_MODULE_LANG_ID, VOBA_MODULE_LANG_ID,voba_make_string(voba_str_from_cstr(VOBA_MODULE_LANG_MATCH)));
+    s_gf_iter = voba_module_var(VOBA_MODULE_LANG_ID, VOBA_MODULE_LANG_ID,voba_make_string(voba_str_from_cstr(VOBA_MODULE_LANG_ITER)));
 }
 
 
