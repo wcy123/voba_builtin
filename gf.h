@@ -12,8 +12,6 @@ extern voba_value_t gf_lt_eq;
 extern voba_value_t gf_plus;
 extern voba_value_t gf_mod;
 extern voba_value_t gf_left_shift;
-extern voba_value_t s_gf_match;
-extern voba_value_t s_gf_iter;
 
 
 

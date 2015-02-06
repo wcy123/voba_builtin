@@ -3,7 +3,6 @@
 #include <voba/value.h>
 #include <voba/module.h>
 #include "gf.h"
-#include "match.h"
 VOBA_FUNC static voba_value_t str_string(voba_value_t self,voba_value_t v)
 {
     voba_str_t* ret = voba_str_from_char('"',1);
@@ -30,7 +29,6 @@ VOBA_FUNC static voba_value_t plus_string(voba_value_t self, voba_value_t args)
 EXEC_ONCE_PROGN{
     voba_gf_add_class(gf_str,voba_cls_str,voba_make_func(str_string));
     voba_gf_add_class(gf_plus,voba_cls_str,voba_make_func(plus_string));
-    voba_gf_add_class(voba_symbol_value(s_gf_match),voba_cls_str,voba_make_func(match_single));
 }
 
 

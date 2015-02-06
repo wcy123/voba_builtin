@@ -3,7 +3,7 @@
 #include <voba/value.h>
 #include <voba/module.h>
 #include "gf.h"
-#include "match.h"
+
 VOBA_FUNC voba_value_t str_int (voba_value_t self,voba_value_t args)
 {
     VOBA_ASSERT_N_ARG(args,0);
@@ -90,13 +90,6 @@ VOBA_FUNC static voba_value_t mod_int(voba_value_t self, voba_value_t args)
 
 EXEC_ONCE_PROGN{
 
-    voba_gf_add_class(voba_symbol_value(s_gf_match),voba_cls_i8,voba_make_func(match_single));
-    voba_gf_add_class(voba_symbol_value(s_gf_match),voba_cls_i16,voba_make_func(match_single));
-    voba_gf_add_class(voba_symbol_value(s_gf_match),voba_cls_i32,voba_make_func(match_single));
-    voba_gf_add_class(voba_symbol_value(s_gf_match),voba_cls_u8,voba_make_func(match_single));
-    voba_gf_add_class(voba_symbol_value(s_gf_match),voba_cls_u16,voba_make_func(match_single));
-    voba_gf_add_class(voba_symbol_value(s_gf_match),voba_cls_u32,voba_make_func(match_single));
-    voba_gf_add_class(voba_symbol_value(s_gf_match),voba_cls_float,voba_make_func(match_single));
 
     voba_gf_add_class(gf_plus,voba_cls_i8,voba_make_func(plus_int));
     voba_gf_add_class(gf_plus,voba_cls_i16,voba_make_func(plus_int));

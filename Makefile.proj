@@ -9,9 +9,7 @@ SRCS_C += integer.c
 SRCS_C += range.c
 SRCS_C += print.c
 SRCS_C += array.c
-SRCS_C += tuple.c
-SRCS_C += function.c
-SRCS_C += match.c
+# SRCS_C += tuple.c
 SRCS_C += str.c
 SRCS_C += other.c
 
