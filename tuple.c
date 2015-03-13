@@ -65,7 +65,6 @@ VOBA_FUNC static voba_value_t len_tuple(voba_value_t self, voba_value_t args)
 }
 EXEC_ONCE_PROGN{
     voba_gf_add_class(gf_str,voba_cls_tuple,voba_make_func(str_tuple));
-    voba_gf_add_class(voba_symbol_value(s_gf_iter), voba_cls_tuple, voba_make_func(tuple_iterator));
     voba_gf_add_class(gf_len, voba_cls_tuple,voba_make_func(len_tuple));
     voba_gf_add_class(voba_gf_apply,voba_cls_tuple,voba_make_func(apply_tuple));
 }

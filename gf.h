@@ -2,7 +2,6 @@
 
 extern voba_value_t gf_str;
 extern voba_value_t gf_len;
-extern voba_value_t gf_iter;
 extern voba_value_t gf_apply;
 extern voba_value_t gf_equal;
 extern voba_value_t gf_gt;
