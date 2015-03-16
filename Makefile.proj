@@ -12,9 +12,9 @@ SRCS_C += src/array.c
 # SRCS_C += tuple.c
 SRCS_C += src/str.c
 SRCS_C += src/other.c
+SRCS_C += sys/sys.c
 
-
-libbuiltin.so: $(OBJS)
+libbuiltin.so: $(filter src/%, $(OBJS))
 	$(CC) -shared -Wl,-soname,$@ -o $@ $^  $(LDFLAGS)
 
 
@@ -26,11 +26,33 @@ install_files += $(libdir)/voba/core/builtin.h
 $(libdir)/voba/core/builtin.h : src/builtin.h
 	$(INSTALL) $< $@
 
+MODULES +=sys
+MODULES_LOCAL_SO = $(patsubst %, $(libdir)/voba/core/lib%.so, $(MODULES))
+MODULES_REMOTE_SO = $(patsubst %, lib%.so, $(MODULES))
+MODULES_H = $(patsubst %, $(libdir)/voba/core/%.h, $(MODULES))
+install_files += $(MODULES_SO)
+install_files += $(MODULES_H)
+
+define MODULE_RECIPE
+lib$1.so: $(filter $1/%, $(OBJS))
+	$$(CC) -shared -Wl,-soname,$$@ -o $$@ $$^  $(LDFLAGS)
+
+install_files += $(libdir)/voba/core/lib$1.so
+$(libdir)/voba/core/lib$1.so: lib$1.so
+	$$(INSTALL) $$< $$@
+
+install_files += $(libdir)/voba/core/$1.h
+$(libdir)/voba/core/$1.h : $1/$1.h
+	$$(INSTALL) $$< $$@
+endef
+$(foreach module, $(MODULES), $(eval $(call MODULE_RECIPE,$(MODULES),$(dir))))
+
+
 
 dirs += $(libdir)/voba/core
 
 test:
-	echo no test
+	echo $(MODULES_SO)
 # Local Variables:
 # mode:makefile
 # coding: utf-8-unix
