@@ -35,13 +35,6 @@ VOBA_FUNC static voba_value_t iter_tuple_next (voba_value_t self, voba_value_t a
     }
     return ret;
 }
-VOBA_FUNC static voba_value_t tuple_iterator(voba_value_t self, voba_value_t args)
-{
-    VOBA_ASSERT_N_ARG(args,0);
-    voba_value_t a = voba_tuple_at(args,0);
-    VOBA_ASSERT_ARG_ISA(a,voba_cls_tuple,0);
-    return voba_make_closure_2(iter_tuple_next,a,0);
-}
 /* apply */
 VOBA_FUNC static voba_value_t apply_tuple(voba_value_t self, voba_value_t args)
 {
