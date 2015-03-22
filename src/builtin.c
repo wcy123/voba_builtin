@@ -49,6 +49,7 @@ VOBA_FUNC static voba_value_t eq_i32_mod_0(voba_value_t self, voba_value_t args)
 EXEC_ONCE_PROGN{
     /* functions */
     VOBA_DEFINE_MODULE_SYMBOL(s_get_class,voba_make_func(get_class));
+    VOBA_DEFINE_MODULE_SYMBOL(s_str, voba_gf_to_string);
     VOBA_DEFINE_MODULE_SYMBOL(s_range, voba_make_func(range));
     VOBA_DEFINE_MODULE_SYMBOL(s_print, voba_make_func(print));
     VOBA_DEFINE_MODULE_SYMBOL(s_array, voba_make_func(array));
