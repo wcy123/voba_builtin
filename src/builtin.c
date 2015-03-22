@@ -83,6 +83,8 @@ EXEC_ONCE_PROGN{
     VOBA_DEFINE_MODULE_SYMBOL(s_cls_u32, voba_cls_u32);
     VOBA_DEFINE_MODULE_SYMBOL(s_cls_float, voba_cls_float);
     VOBA_DEFINE_MODULE_SYMBOL(s_cls_str, voba_cls_str);
+    /* module related */
+    VOBA_DEFINE_MODULE_SYMBOL(s_read_module_info, VOBA_NIL);
 }
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)

@@ -13,6 +13,7 @@ SRCS_C += src/tuple.c
 SRCS_C += src/str.c
 SRCS_C += src/other.c
 SRCS_C += sys/sys.c
+SRCS_C += os/path/pathstr.c
 
 libbuiltin.so: $(filter src/%, $(OBJS))
 	$(CC) -shared -Wl,-soname,$@ -o $@ $^  $(LDFLAGS)
@@ -27,28 +28,27 @@ $(libdir)/voba/core/builtin.h : src/builtin.h
 	$(INSTALL) $< $@
 
 MODULES +=sys
-MODULES_LOCAL_SO = $(patsubst %, $(libdir)/voba/core/lib%.so, $(MODULES))
-MODULES_REMOTE_SO = $(patsubst %, lib%.so, $(MODULES))
-MODULES_H = $(patsubst %, $(libdir)/voba/core/%.h, $(MODULES))
-install_files += $(MODULES_SO)
-install_files += $(MODULES_H)
+MODULES +=os/path
 
 define MODULE_RECIPE
-lib$1.so: $(filter $1/%, $(OBJS))
+$1lib$2.so: $(filter $1%, $(OBJS))
 	$$(CC) -shared -Wl,-soname,$$@ -o $$@ $$^  $(LDFLAGS)
 
-install_files += $(libdir)/voba/core/lib$1.so
-$(libdir)/voba/core/lib$1.so: lib$1.so
-	$$(INSTALL) $$< $$@
+install_files += $(libdir)/voba/core/$1lib$2.so
+$(libdir)/voba/core/$1lib$2.so: $1lib$2.so
+	mkdir -p $(libdir)/voba/core/$1 2>/dev/null; $$(INSTALL) $$< $$@
 
-install_files += $(libdir)/voba/core/$1.h
-$(libdir)/voba/core/$1.h : $1/$1.h
-	$$(INSTALL) $$< $$@
+install_files += $(libdir)/voba/core/$1$2.h
+$(libdir)/voba/core/$1$2.h : $1$2/$2.h
+	mkdir -p $(libdir)/voba/core/$1 2>/dev/null; $$(INSTALL) $$< $$@
 endef
-$(foreach module, $(MODULES), $(eval $(call MODULE_RECIPE,$(MODULES),$(dir))))
 
+test1:
+	echo $(foreach module, $(MODULES), $(dir $(module)))
+test2:
+	echo $(foreach module, $(MODULES), $(call MODULE_RECIPE,$(dir $(module)),$(notdir $(module)),$(module))))
 
-
+$(foreach module, $(MODULES), $(eval $(call MODULE_RECIPE,$(dir $(module)),$(notdir $(module)),$(module))))
 dirs += $(libdir)/voba/core
 
 test:
