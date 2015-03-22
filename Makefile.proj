@@ -13,7 +13,8 @@ SRCS_C += src/tuple.c
 SRCS_C += src/str.c
 SRCS_C += src/other.c
 SRCS_C += sys/sys.c
-SRCS_C += os/path/pathstr.c
+SRCS_C += os/path/path.c
+SRCS_C += compiler/source/source.c
 
 libbuiltin.so: $(filter src/%, $(OBJS))
 	$(CC) -shared -Wl,-soname,$@ -o $@ $^  $(LDFLAGS)
@@ -29,6 +30,7 @@ $(libdir)/voba/core/builtin.h : src/builtin.h
 
 MODULES +=sys
 MODULES +=os/path
+MODULES +=compiler/source
 
 define MODULE_RECIPE
 $1lib$2.so: $(filter $1%, $(OBJS))
