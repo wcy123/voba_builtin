@@ -24,7 +24,6 @@ VOBA_FUNC static voba_value_t lt_eq(voba_value_t self, voba_value_t args)
 {
     return voba_not(voba_apply(gf_gt,args));
 }
-voba_value_t gf_str = VOBA_UNDEF;
 voba_value_t gf_len = VOBA_UNDEF;
 voba_value_t gf_apply = VOBA_UNDEF;
 voba_value_t gf_equal = VOBA_UNDEF;
@@ -36,7 +35,6 @@ voba_value_t gf_plus = VOBA_UNDEF;
 voba_value_t gf_mod = VOBA_UNDEF;
 voba_value_t gf_left_shift = VOBA_UNDEF;
 EXEC_ONCE_PROGN{
-    gf_str = voba_make_generic_function("gf_str",0);
     gf_len = voba_make_generic_function("len",0);
     gf_apply = voba_make_generic_function("apply",0);
     gf_equal = voba_make_generic_function("==",0);

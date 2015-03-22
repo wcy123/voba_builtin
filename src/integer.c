@@ -4,15 +4,6 @@
 #include <voba/module.h>
 #include "gf.h"
 
-VOBA_FUNC voba_value_t str_int (voba_value_t self,voba_value_t args)
-{
-    VOBA_ASSERT_N_ARG(args,0);
-    voba_value_t a1 = voba_tuple_at(args,0);
-    int64_t a2  = voba_int_value_to_i32(a1);
-    voba_str_t* a3 = voba_str_fmt_int64_t(a2,10);
-    voba_value_t ret = voba_make_string(a3);
-    return ret;
-}
 
 /* comparison */
 
@@ -104,13 +95,6 @@ EXEC_ONCE_PROGN{
     voba_gf_add_class(gf_mod,voba_cls_u8,voba_make_func(mod_int));
     voba_gf_add_class(gf_mod,voba_cls_u16,voba_make_func(mod_int));
     voba_gf_add_class(gf_mod,voba_cls_u32,voba_make_func(mod_int));
-
-    voba_gf_add_class(gf_str,voba_cls_i8,voba_make_func(str_int));
-    voba_gf_add_class(gf_str,voba_cls_i16,voba_make_func(str_int));
-    voba_gf_add_class(gf_str,voba_cls_i32,voba_make_func(str_int));
-    voba_gf_add_class(gf_str,voba_cls_u8,voba_make_func(str_int));
-    voba_gf_add_class(gf_str,voba_cls_u16,voba_make_func(str_int));
-    voba_gf_add_class(gf_str,voba_cls_u32,voba_make_func(str_int));
     
     voba_gf_add_class(gf_gt,voba_cls_i8,voba_make_func(gt_int));
     voba_gf_add_class(gf_equal,voba_cls_i8,voba_make_func(equal_int));

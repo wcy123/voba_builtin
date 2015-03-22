@@ -4,23 +4,6 @@
 #include <voba/module.h>
 #include "gf.h"
 /* str */
-VOBA_FUNC static  voba_value_t str_array(voba_value_t self,voba_value_t vs)
-{
-    voba_value_t v = voba_tuple_at(vs,0);
-    int64_t len = voba_array_len(v);
-    voba_str_t* ret = voba_str_empty();
-    ret = voba_strcat_char(ret,'[');
-    for(int i = 0; i < len ; ++i){
-        if(i!=0){
-            ret = voba_strcat_char(ret,',');
-        }
-        voba_value_t args[] = {1,voba_array_at(v,i)};
-        ret = voba_strcat(ret,
-                          voba_value_to_str(voba_apply(gf_str,voba_make_tuple(args))));
-    }
-    ret = voba_strcat_char(ret,']');
-    return voba_make_string(ret);
-}
 /* gf len */
 VOBA_FUNC static voba_value_t len_array(voba_value_t self, voba_value_t args)
 {
@@ -47,7 +30,6 @@ VOBA_FUNC voba_value_t array (voba_value_t self, voba_value_t args)
 }
 
 EXEC_ONCE_PROGN{
-    voba_gf_add_class(gf_str,voba_cls_array,voba_make_func(str_array));
     voba_gf_add_class(gf_len, voba_cls_array,voba_make_func(len_array));
     voba_gf_add_class(gf_left_shift, voba_cls_array,voba_make_func(array_left_shift));
 }
