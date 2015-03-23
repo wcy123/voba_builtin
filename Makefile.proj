@@ -16,6 +16,10 @@ SRCS_C += sys/sys.c
 SRCS_C += os/path/path.c
 SRCS_C += compiler/source/source.c
 SRCS_C += compiler/syntax/syntax.c
+SRCS_C += compiler/module_info/module_info.c
+SRCS_C += compiler/module_info/module_info.c
+
+all: libbuiltin.so
 
 libbuiltin.so: $(filter src/%, $(OBJS))
 	$(CC) -shared -Wl,-soname,$@ -o $@ $^  $(LDFLAGS)
@@ -33,8 +37,10 @@ MODULES +=sys
 MODULES +=os/path
 MODULES +=compiler/source
 MODULES +=compiler/syntax
-
+MODULES +=compiler/module_info
 define MODULE_RECIPE
+all: $1lib$2.so
+
 $1lib$2.so: $(filter $1$2/%, $(OBJS))
 	$$(CC) -shared -Wl,-soname,$$@ -o $$@ $$^  $(LDFLAGS)
 
@@ -47,16 +53,22 @@ $(libdir)/voba/core/$1$2.h : $1$2/$2.h
 	mkdir -p $(libdir)/voba/core/$1 2>/dev/null; $$(INSTALL) $$< $$@
 endef
 
+compiler/module_info/module_info_lex.inc: compiler/module_info/module_info_lex.l
+	-(cd compiler/module_info;flex --noline module_info_lex.l)
+compiler/module_info/module_info.o: compiler/module_info/module_info_lex.inc
+
 test1:
 	echo $(foreach module, $(MODULES), $(dir $(module)))
 test2:
 	echo $(foreach module, $(MODULES), $(call MODULE_RECIPE,$(dir $(module)),$(notdir $(module)),$(module))))
 
+
 $(foreach module, $(MODULES), $(eval $(call MODULE_RECIPE,$(dir $(module)),$(notdir $(module)),$(module))))
+
 dirs += $(libdir)/voba/core
 
 test:
-	echo $(MODULES_SO)
+	echo $(install_file)
 # Local Variables:
 # mode:makefile
 # coding: utf-8-unix

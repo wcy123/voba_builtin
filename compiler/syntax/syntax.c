@@ -3,13 +3,7 @@
 #include <exec_once.h>
 #include <voba/value.h>
 #include "syntax.h"
-typedef struct syntax_s {
-    uint32_t start_pos;
-    uint32_t end_pos;
-    voba_value_t source;
-    voba_value_t value;
-} syntax_t;
-#define SYNTAX(s) VOBA_USER_DATA_AS(syntax_t *,s)
+#include "syntax_c.h"
 extern voba_value_t voba_cls_syntax;
 VOBA_DEF_CLS(sizeof(syntax_t),syntax);
 void syntax_get_line_column(int start, voba_value_t syntax,uint32_t * line, uint32_t * col);

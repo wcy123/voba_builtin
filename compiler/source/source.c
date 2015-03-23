@@ -2,12 +2,7 @@
 #include <voba/value.h>
 #include "exec_once.h"
 #include "source.h"
-
-typedef struct source_s {
-    voba_str_t* filename;
-    voba_str_t* content;
-} source_t;
-#define SOURCE(s) VOBA_USER_DATA_AS(source_t *,s)
+#include "source_c.h"
 VOBA_DEF_CLS(sizeof(source_t),source);
 
 VOBA_FUNC static voba_value_t make_2Dsource(voba_value_t self, voba_value_t args)
@@ -48,6 +43,20 @@ VOBA_FUNC static voba_value_t make_2Dsource(voba_value_t self, voba_value_t args
     p_source->content = voba_value_to_str(content);
     return ret;
 }
+VOBA_FUNC static voba_value_t source_2Dfilename(voba_value_t self, voba_value_t args)
+{
+    VOBA_ASSERT_N_ARG( args, 0);
+    voba_value_t  source = voba_tuple_at(args, 0);
+    VOBA_ASSERT_ARG_ISA(source,voba_cls_source,0);
+    return voba_make_string(SOURCE(source)->filename);
+}
+VOBA_FUNC static voba_value_t source_2Dcontent(voba_value_t self, voba_value_t args)
+{
+    VOBA_ASSERT_N_ARG( args, 0);
+    voba_value_t  source = voba_tuple_at(args, 0);
+    VOBA_ASSERT_ARG_ISA(source,voba_cls_source,0);
+    return voba_make_string(SOURCE(source)->content);
+}
 VOBA_FUNC static voba_value_t source_to_string(voba_value_t self, voba_value_t args)
 {
     VOBA_ASSERT_N_ARG( args, 0);
@@ -62,6 +71,8 @@ VOBA_FUNC static voba_value_t source_to_string(voba_value_t self, voba_value_t a
 }
 EXEC_ONCE_PROGN{
     VOBA_DEFINE_MODULE_SYMBOL(s_make_2Dsource, voba_make_func(make_2Dsource));
+    VOBA_DEFINE_MODULE_SYMBOL(s_source_2Dfilename, voba_make_func(source_2Dfilename));
+    VOBA_DEFINE_MODULE_SYMBOL(s_source_2Dcontent, voba_make_func(source_2Dcontent));
     voba_gf_add_class(voba_gf_to_string,voba_cls_source,voba_make_func(source_to_string));
 }
 voba_value_t voba_init(voba_value_t this_module)
