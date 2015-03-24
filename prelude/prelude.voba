@@ -1,0 +1,7 @@
+(import sys)
+(import compiler/module_info)
+;;(print "Hello VoBa 0.1")
+(let ((mi (read_module_info (argv 1))))
+  (load-module mi))
+     
+     

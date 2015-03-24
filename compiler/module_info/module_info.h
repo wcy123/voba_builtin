@@ -3,6 +3,7 @@
 
 #define VOBA_SYMBOL_TABLE(XX)         \
     XX(read_module_info)              \
+    XX(load_2Dmodule)                 \
     
 #define VOBA_MODULE_NAME "compiler/module_info"
 #include <voba/module_end.h>

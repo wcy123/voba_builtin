@@ -1,56 +1,64 @@
 CXXFLAGS += -fPIC
 CFLAGS += -fPIC
-
+CFLAGS += -I$(libdir)
 CFLAGS += -D_BSD_SOURCE # otherwise realpath is not defined.
 
-SRCS_C += src/builtin.c
-SRCS_C += src/gf.c
-SRCS_C += src/integer.c
-SRCS_C += src/range.c
-SRCS_C += src/print.c
-SRCS_C += src/array.c
-SRCS_C += src/tuple.c
-SRCS_C += src/str.c
-SRCS_C += src/other.c
-SRCS_C += sys/sys.c
+SRCS_C += ./src/builtin.c
+SRCS_C += ./src/gf.c
+SRCS_C += ./src/integer.c
+SRCS_C += ./src/range.c
+SRCS_C += ./src/print.c
+SRCS_C += ./src/array.c
+SRCS_C += ./src/tuple.c
+SRCS_C += ./src/str.c
+SRCS_C += ./src/other.c
+SRCS_C += ./sys/sys.c
 SRCS_C += os/path/path.c
 SRCS_C += compiler/source/source.c
 SRCS_C += compiler/syntax/syntax.c
 SRCS_C += compiler/module_info/module_info.c
 SRCS_C += compiler/module_info/module_info.c
+SRCS_C += ./prelude/prelude.c
 
 all: libbuiltin.so
 
 libbuiltin.so: $(filter src/%, $(OBJS))
 	$(CC) -shared -Wl,-soname,$@ -o $@ $^  $(LDFLAGS)
 
-
 install_files += $(libdir)/voba/core/libbuiltin.so
 $(libdir)/voba/core/libbuiltin.so: libbuiltin.so
 	$(INSTALL) $< $@
 
+install_header_files = $(libdir)/voba/core/builtin.h
 install_files += $(libdir)/voba/core/builtin.h
 $(libdir)/voba/core/builtin.h : src/builtin.h
 	$(INSTALL) $< $@
+
+header_files: $(install_header_files)
+
+
 
 MODULES +=sys
 MODULES +=os/path
 MODULES +=compiler/source
 MODULES +=compiler/syntax
 MODULES +=compiler/module_info
+MODULES +=prelude
 define MODULE_RECIPE
 all: $1lib$2.so
-
-$1lib$2.so: $(filter $1$2/%, $(OBJS))
-	$$(CC) -shared -Wl,-soname,$$@ -o $$@ $$^  $(LDFLAGS)
+$1lib$2.so: $(filter $1$2/%, $(OBJS)) $$(install_header_files)
+	$$(CC) -shared -Wl,-soname,$$@ -o $$@ $$<  $(LDFLAGS)
 
 install_files += $(libdir)/voba/core/$1lib$2.so
 $(libdir)/voba/core/$1lib$2.so: $1lib$2.so
 	mkdir -p $(libdir)/voba/core/$1 2>/dev/null; $$(INSTALL) $$< $$@
+CLEANED_FILES += $1lib$2.so
 
 install_files += $(libdir)/voba/core/$1$2.h
+install_header_files += $(libdir)/voba/core/$1$2.h
 $(libdir)/voba/core/$1$2.h : $1$2/$2.h
 	mkdir -p $(libdir)/voba/core/$1 2>/dev/null; $$(INSTALL) $$< $$@
+
 endef
 
 compiler/module_info/module_info_lex.inc: compiler/module_info/module_info_lex.l
@@ -66,7 +74,8 @@ test2:
 $(foreach module, $(MODULES), $(eval $(call MODULE_RECIPE,$(dir $(module)),$(notdir $(module)),$(module))))
 
 dirs += $(libdir)/voba/core
-
+%.c: %.voba $(libdir)/voba/core/builtin.h $(install_header_files)
+	env LD_LIBRARY_PATH=$(libdir) VOBA_PATH=$(libdir)/voba/core ../voba_compiler/vobac $< > $@
 test:
 	echo $(install_file)
 # Local Variables:
