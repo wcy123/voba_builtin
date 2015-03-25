@@ -7,7 +7,6 @@ SRCS_C += ./src/builtin.c
 SRCS_C += ./src/gf.c
 SRCS_C += ./src/integer.c
 SRCS_C += ./src/range.c
-SRCS_C += ./src/print.c
 SRCS_C += ./src/array.c
 SRCS_C += ./src/tuple.c
 SRCS_C += ./src/str.c
@@ -22,7 +21,7 @@ SRCS_C += ./prelude/prelude.c
 
 all: libbuiltin.so
 
-libbuiltin.so: $(filter src/%, $(OBJS))
+libbuiltin.so: $(filter ./src/%, $(OBJS))
 	$(CC) -shared -Wl,-soname,$@ -o $@ $^  $(LDFLAGS)
 
 install_files += $(libdir)/voba/core/libbuiltin.so
@@ -31,10 +30,8 @@ $(libdir)/voba/core/libbuiltin.so: libbuiltin.so
 
 install_header_files = $(libdir)/voba/core/builtin.h
 install_files += $(libdir)/voba/core/builtin.h
-$(libdir)/voba/core/builtin.h : src/builtin.h
+$(libdir)/voba/core/builtin.h : src/builtin.h $(libdir)/voba/core
 	$(INSTALL) $< $@
-
-header_files: $(install_header_files)
 
 
 
@@ -74,8 +71,13 @@ test2:
 $(foreach module, $(MODULES), $(eval $(call MODULE_RECIPE,$(dir $(module)),$(notdir $(module)),$(module))))
 
 dirs += $(libdir)/voba/core
-%.c: %.voba $(libdir)/voba/core/builtin.h $(install_header_files)
+
+%.c: %.voba $(libdir)/voba/core/builtin.h $(install_header_files) $(libdir)/voba/core/libbuiltin.so
 	env LD_LIBRARY_PATH=$(libdir) VOBA_PATH=$(libdir)/voba/core ../voba_compiler/vobac $< > $@
+
+prelude/prelude.c: $(libdir)/voba/core/libbuiltin.so
+#	env LD_LIBRARY_PATH=$(libdir) VOBA_PATH=$(libdir)/voba/core ../voba_compiler/vobac $< > $@
+
 test:
 	echo $(install_file)
 # Local Variables:

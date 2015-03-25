@@ -26,7 +26,7 @@
     XX(cls_u32)                                         \
     XX(cls_float)                                       \
     XX(cls_str)                                         \
-
+    XX(array_2Diter)                                    \
 
 //(gf_apply)                              
 //(apply)                                 
