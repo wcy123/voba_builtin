@@ -21,6 +21,7 @@ SRCS_C += ./prelude/prelude.c
 SRCS_C += compiler/parser/flex.c
 SRCS_C += compiler/parser/parser.c
 SRCS_C += compiler/parser/parser_y.c
+SRCS_C += compiler/ast/ast.c
 
 all: libbuiltin.so
 
@@ -45,6 +46,7 @@ MODULES +=compiler/syntax
 MODULES +=compiler/module_info
 MODULES +=prelude
 MODULES +=compiler/parser
+MODULES +=compiler/ast
 define MODULE_RECIPE
 all: $1lib$2.so
 $1lib$2.so: $(filter $1$2/%, $(OBJS)) $$(install_header_files)
