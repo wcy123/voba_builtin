@@ -84,6 +84,52 @@ EXEC_ONCE_PROGN{
     /* array iterator */
     VOBA_DEFINE_MODULE_SYMBOL(s_array_2Diter,voba_make_func(array_iter));
 }
+/** @brief match for builtin classes
+ @todo add document for this function.
+ */
+VOBA_FUNC static voba_value_t isa_closure(voba_value_t self, voba_value_t args)
+{
+    voba_value_t cls = voba_tuple_at(self,0);
+    VOBA_ASSERT_N_ARG(args,0);
+    voba_value_t v = voba_tuple_at(args,0);
+    int64_t args_len = voba_tuple_len(args);
+    voba_value_t ret = voba_is_a(v,cls);
+    switch(args_len){
+    case 1: break;// do nothing, normal function invoke
+    case 3:{ // pattern match
+        voba_value_t index = voba_tuple_at(args,1);
+        voba_value_t len = voba_tuple_at(args,2);
+        int32_t index1 = voba_value_to_i32(index);
+        int32_t len1 = voba_value_to_i32(len);
+        switch(index1){
+        case -1: // check if the number of argument match
+            if(len1 == 1 && voba_is_a(v,cls)){
+                ret = VOBA_TRUE;
+            }else{
+                ret = VOBA_FALSE;
+            }
+            break;
+        case 0:
+            assert(len1 == 1);
+            assert(voba_is_a(v,cls));
+            ret = v;
+            break;
+        default:
+            assert(0&&"never goes here");
+        }
+    }
+    }
+    return ret;
+}
+VOBA_FUNC static voba_value_t isa(voba_value_t self, voba_value_t args) 
+{
+    VOBA_ASSERT_N_ARG(args,0);
+    voba_value_t cls = voba_tuple_at(args,0);
+    return voba_make_closure_1(isa_closure,cls);
+}
+EXEC_ONCE_PROGN {
+    VOBA_DEFINE_MODULE_SYMBOL(s_isa,voba_make_func(isa));
+}
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)
 {

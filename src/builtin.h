@@ -27,7 +27,8 @@
     XX(cls_float)                                       \
     XX(cls_str)                                         \
     XX(array_2Diter)                                    \
-
+    XX(isa)                                             \
+    
 //(gf_apply)                              
 //(apply)                                 
 
