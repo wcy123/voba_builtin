@@ -77,6 +77,7 @@ EXEC_ONCE_PROGN{
     VOBA_DEFINE_MODULE_SYMBOL(s_syntax_2Dstart_pos,voba_make_func(syntax_start_pos));
     VOBA_DEFINE_MODULE_SYMBOL(s_syntax_2Dend_pos,voba_make_func(syntax_end_pos));
     VOBA_DEFINE_MODULE_SYMBOL(s_syntax_2Dsource,voba_make_func(syntax_source));
+    VOBA_DEFINE_MODULE_SYMBOL(s_syntax_2Dclass, voba_cls_syntax);
 }
 voba_value_t voba_init(voba_value_t this_module)
 {
