@@ -27,17 +27,6 @@ typedef struct YYLTYPE
   uint32_t end_pos;
 } YYLTYPE;
 
-static voba_value_t make_syntax(voba_value_t value,
-                                          uint32_t start_pos,
-                                          uint32_t end_pos,
-                                          voba_value_t source)
-{
-    voba_value_t f = voba_symbol_value(s_make_2Dsyntax);
-    voba_value_t args[] = {4, value, voba_make_i32((int32_t)start_pos),
-                           voba_make_i32((int32_t)end_pos),
-                           source};
-    return voba_apply(f,voba_make_tuple(args));
-}
 #include "module_info_lex.inc"
 
 static inline voba_value_t search_module_header_file(voba_value_t module_name,voba_value_t attempts, voba_str_t * pwd);
@@ -84,10 +73,12 @@ static inline voba_value_t read_module_info_1(voba_value_t module_name, voba_val
                 source = voba_apply(
                     voba_symbol_value(s_make_2Dsource), voba_make_tuple(tmpargs));
             }
-            mi->syn_name = make_syntax(module_name,
-                                       1,
-                                       voba_value_to_str(module_name)->len + 1,
-                                       source);
+            VOBA_APPLY(mi->syn_name,
+                       voba_symbol_value(s_make_2Dsyntax),
+                       module_name,
+                       voba_make_i32(1),
+                       voba_make_i32(voba_value_to_str(module_name)->len + 1),
+                       source);
             voba_value_t anonymous_module_id = random_module_id(module_name);
             {
                 voba_value_t tmpargs[] = {2
@@ -100,10 +91,12 @@ static inline voba_value_t read_module_info_1(voba_value_t module_name, voba_val
                 source = voba_apply(
                     voba_symbol_value(s_make_2Dsource), voba_make_tuple(tmpargs));
             }
-            mi->syn_id = make_syntax(anonymous_module_id
-                                            ,1
-                                            ,voba_value_to_str(anonymous_module_id)->len + 1
-                                            ,source);
+            VOBA_APPLY(mi->syn_id,
+                       voba_symbol_value(s_make_2Dsyntax),
+                       anonymous_module_id
+                       ,voba_make_i32(1)
+                       ,voba_make_i32(voba_value_to_str(anonymous_module_id)->len + 1)
+                       ,source);
             mi->a_syn_symbols = voba_make_array_0();
             /// @todo add mi->header_file and mi->so_file here
         }
@@ -116,13 +109,7 @@ static inline voba_value_t read_module_info_1(voba_value_t module_name, voba_val
         }
         if(!voba_is_nil(source)) {
             ret = make_module_info();
-            voba_str_t * content = NULL;
-            {
-                voba_value_t tmpargs[] = {1, source};
-                content = voba_value_to_str
-                    (voba_apply(voba_symbol_value(s_source_2Dcontent),
-                                voba_make_tuple(tmpargs)));
-            }
+            voba_str_t * content = SOURCE(source)->content;
             void * scanner;
             yylex_init(&scanner);
             yy_scan_bytes(content->data,content->len,scanner);

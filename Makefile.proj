@@ -18,6 +18,9 @@ SRCS_C += compiler/syntax/syntax.c
 SRCS_C += compiler/module_info/module_info.c
 SRCS_C += compiler/module_info/module_info.c
 SRCS_C += ./prelude/prelude.c
+SRCS_C += compiler/parser/flex.c
+SRCS_C += compiler/parser/parser.c
+SRCS_C += compiler/parser/parser_y.c
 
 all: libbuiltin.so
 
@@ -41,10 +44,11 @@ MODULES +=compiler/source
 MODULES +=compiler/syntax
 MODULES +=compiler/module_info
 MODULES +=prelude
+MODULES +=compiler/parser
 define MODULE_RECIPE
 all: $1lib$2.so
 $1lib$2.so: $(filter $1$2/%, $(OBJS)) $$(install_header_files)
-	$$(CC) -shared -Wl,-soname,$$@ -o $$@ $$<  $(LDFLAGS)
+	$$(CC) -shared -Wl,-soname,$$@ -o $$@ $$(filter %.o, $$^)  $(LDFLAGS)
 
 install_files += $(libdir)/voba/core/$1lib$2.so
 $(libdir)/voba/core/$1lib$2.so: $1lib$2.so
@@ -61,6 +65,12 @@ endef
 compiler/module_info/module_info_lex.inc: compiler/module_info/module_info_lex.l
 	-(cd compiler/module_info;flex --noline module_info_lex.l)
 compiler/module_info/module_info.o: compiler/module_info/module_info_lex.inc
+
+compiler/parser/flex.c: compiler/parser/flex.l
+	-(cd compiler/parser/;flex -d flex.l)
+compiler/parser/parser_y.c: compiler/parser/parser_y.y
+	-(cd compiler/parser;bison parser_y.y)
+
 
 test1:
 	echo $(foreach module, $(MODULES), $(dir $(module)))

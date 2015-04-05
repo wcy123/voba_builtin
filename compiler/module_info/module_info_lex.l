@@ -42,20 +42,28 @@ ID       [a-zA-Z_><+*/-][a-zA-Z0-9?_><+*/-]*
      int i = 0; while(yytext[i++] != '(');
      int j = i; while(yytext[++j] != ')');
      voba_str_t* symbol_name = (voba_str_from_data(yytext + i, j - i));
-     voba_array_push(MODULE_INFO(module_info)->a_syn_symbols,
-                     make_syntax(voba_make_string(voba_c_id_decode(voba_strdup(symbol_name))),yylloc->start_pos + i, yylloc->start_pos + j,source));
+     voba_value_t r = VOBA_NIL;
+     VOBA_APPLY(r,
+                voba_symbol_value(s_make_2Dsyntax),
+                voba_make_string(voba_c_id_decode(voba_strdup(symbol_name))),
+                yylloc->start_pos + i, yylloc->start_pos + j,source);
+     voba_array_push(MODULE_INFO(module_info)->a_syn_symbols,r);
 }
 ^#define[[:space:]]+VOBA_MODULE_NAME[[:space:]]*\".*\".*$  {
      int i = 0; while(yytext[i++] != '"');
      int j = i; while(yytext[++j] != '"');
      voba_str_t* name = voba_strdup(voba_str_from_data(yytext + i, j - i));
-     MODULE_INFO(module_info)->syn_name = make_syntax(voba_make_string(name),yylloc->start_pos + i , yylloc->start_pos + j,source);
+     VOBA_APPLY(MODULE_INFO(module_info)->syn_name,
+                voba_symbol_value(s_make_2Dsyntax),
+                voba_make_string(name),yylloc->start_pos + i , yylloc->start_pos + j,source);
 }
 ^#define[[:space:]]+VOBA_MODULE_ID[[:space:]]*\".*\".*$  {
      int i = 0; while(yytext[i++] != '"');
      int j = i; while(yytext[++j] != '"');
      voba_str_t* name = voba_strdup(voba_str_from_data(yytext + i, j - i));
-     MODULE_INFO(module_info)->syn_id = make_syntax(voba_make_string(name), yylloc->start_pos + i , yylloc->start_pos + j,source);
+     VOBA_APPLY(MODULE_INFO(module_info)->syn_id,
+                voba_symbol_value(s_make_2Dsyntax),
+                voba_make_string(name), yylloc->start_pos + i , yylloc->start_pos + j,source);
 }
 \n   {
 }

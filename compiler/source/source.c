@@ -74,6 +74,7 @@ EXEC_ONCE_PROGN{
     VOBA_DEFINE_MODULE_SYMBOL(s_source_2Dfilename, voba_make_func(source_2Dfilename));
     VOBA_DEFINE_MODULE_SYMBOL(s_source_2Dcontent, voba_make_func(source_2Dcontent));
     voba_gf_add_class(voba_gf_to_string,voba_cls_source,voba_make_func(source_to_string));
+    VOBA_DEFINE_MODULE_SYMBOL(s_source_2Dclass, voba_cls_source);
 }
 voba_value_t voba_init(voba_value_t this_module)
 {

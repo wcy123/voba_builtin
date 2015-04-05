@@ -5,6 +5,7 @@
     XX(make_2Dsource)                    \
     XX(source_2Dfilename)                \
     XX(source_2Dcontent)                 \
+    XX(source_2Dclass)                   \
     
 #define VOBA_MODULE_NAME "compiler/source"
 #include <voba/module_end.h>
