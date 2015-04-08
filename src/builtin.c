@@ -130,6 +130,50 @@ VOBA_FUNC static voba_value_t isa(voba_value_t self, voba_value_t args)
 EXEC_ONCE_PROGN {
     VOBA_DEFINE_MODULE_SYMBOL(s_isa,voba_make_func(isa));
 }
+VOBA_FUNC static voba_value_t match_tuple(voba_value_t self, voba_value_t args)
+{
+    VOBA_ASSERT_N_ARG(args,0);
+    voba_value_t value = voba_tuple_at(args,0);
+    voba_value_t ret = VOBA_FALSE;
+    if(!voba_is_a(value,voba_cls_tuple)){
+        ret = VOBA_FALSE;
+    }else{
+        voba_value_t len = voba_tuple_len(value);
+        VOBA_ASSERT_N_ARG(args,1);
+        int32_t index = voba_value_to_i32(voba_tuple_at(args,1));
+        VOBA_ASSERT_N_ARG(args,2);
+        int32_t match_len = voba_value_to_i32(voba_tuple_at(args,2));
+        if(index == -1){
+            if( match_len != len ){
+                ret = VOBA_FALSE;
+            }else{
+                ret = VOBA_TRUE;
+            }
+        }else{
+            assert(index < match_len);
+            assert(index < len);
+            ret = voba_tuple_at(value,index);
+        }
+    }
+    return ret;
+}
+EXEC_ONCE_PROGN {
+    VOBA_DEFINE_MODULE_SYMBOL(s_match_2Dtuple, voba_make_func(match_tuple));
+}
+
+VOBA_FUNC static voba_value_t tuple(voba_value_t self, voba_value_t args)
+{
+    int64_t len = voba_tuple_len(args);
+    voba_value_t * p = voba_alloc(len + 1);
+    p[0] = len;
+    voba_value_t ret = voba_make_tuple(p);
+    void * r = memcpy(voba_tuple_base(ret), voba_tuple_base(args),sizeof(voba_value_t)*len);
+    assert(r!=NULL);
+    return ret;
+}
+EXEC_ONCE_PROGN{
+    VOBA_DEFINE_MODULE_SYMBOL(s_tuple,voba_make_func(tuple));
+}
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)
 {

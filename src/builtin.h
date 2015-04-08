@@ -28,6 +28,8 @@
     XX(cls_str)                                         \
     XX(array_2Diter)                                    \
     XX(isa)                                             \
+    XX(match_2Dtuple)                                   \
+    XX(tuple)                                           \
     
 //(gf_apply)                              
 //(apply)                                 
