@@ -8,7 +8,7 @@ VOBA_FUNC voba_value_t range(voba_value_t self, voba_value_t args)
     int64_t len = voba_tuple_len(args);
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t a1 = voba_tuple_at( args, 0);
-    VOBA_ASSERT_ARG_FUN(a1,voba_is_int, 0);
+    VOBA_ASSERT_ARG_ISA(a1,voba_cls_i32, 0);
     voba_value_t from = voba_make_i32(0);
     voba_value_t to = voba_make_i32(0);
     voba_value_t step = voba_make_i32(1);
@@ -22,25 +22,25 @@ VOBA_FUNC voba_value_t range(voba_value_t self, voba_value_t args)
         break;
     case 2:{
         voba_value_t a2 = voba_tuple_at( args, 1);
-        VOBA_ASSERT_ARG_FUN(a2, voba_is_int, 1);
+        VOBA_ASSERT_ARG_ISA(a2, voba_cls_i32, 1);
         from = a1;
         to = a2;
         break;
     }
     case 3:{
         voba_value_t a2 = voba_tuple_at( args, 1);
-        VOBA_ASSERT_ARG_FUN(a2, voba_is_int, 1);
+        VOBA_ASSERT_ARG_ISA(a2, voba_cls_i32, 1);
         voba_value_t a3 = voba_tuple_at( args, 2);
-        VOBA_ASSERT_ARG_FUN(a3, voba_is_int, 2);
+        VOBA_ASSERT_ARG_ISA(a3, voba_cls_i32, 2);
         from = a1;
         to = a2;
         step = a3;
         break;
     }
     }
-    int64_t ifrom = voba_int_value_to_i32(from);
-    int64_t ito = voba_int_value_to_i32(to);
-    int64_t istep = voba_int_value_to_i32(step);
+    int64_t ifrom = voba_value_to_i32(from);
+    int64_t ito = voba_value_to_i32(to);
+    int64_t istep = voba_value_to_i32(step);
     if(!((istep < 0 && ifrom >= ito ) ||
          (istep > 0 && ifrom <= ito ))){
         VOBA_THROW(VOBA_CONST_CHAR("infinite loop: "),

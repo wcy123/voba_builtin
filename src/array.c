@@ -10,7 +10,7 @@ VOBA_FUNC static voba_value_t len_array(voba_value_t self, voba_value_t args)
     VOBA_ASSERT_N_ARG(args,0);
     voba_value_t a = voba_tuple_at(args,0);
     VOBA_ASSERT_ARG_ISA(a,voba_cls_array,0);
-    return voba_make_u32((uint32_t)voba_array_len(a));
+    return voba_make_i32((int32_t)voba_array_len(a));
 }
 /* gf << */
 VOBA_FUNC static voba_value_t array_left_shift(voba_value_t self, voba_value_t args)
