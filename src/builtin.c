@@ -162,7 +162,10 @@ VOBA_FUNC static voba_value_t tuple(voba_value_t self, voba_value_t args)
     voba_value_t * p = voba_alloc(len + 1);
     p[0] = len;
     voba_value_t ret = voba_make_tuple(p);
-    void * r = memcpy(voba_tuple_base(ret), voba_tuple_base(args),sizeof(voba_value_t)*len);
+#ifndef NDEBUG
+    void * r =
+#endif
+	memcpy(voba_tuple_base(ret), voba_tuple_base(args),sizeof(voba_value_t)*len);
     assert(r!=NULL);
     return ret;
 }
