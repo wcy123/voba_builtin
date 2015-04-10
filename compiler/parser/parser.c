@@ -28,7 +28,7 @@ voba_value_t src2syn(voba_value_t source)
     yylex_destroy(scanner);
     return ret;
 }
-VOBA_FUNC static voba_value_t parse(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t parse(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG(args,0);
     voba_value_t source = voba_tuple_at(args,0);

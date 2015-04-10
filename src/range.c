@@ -2,8 +2,8 @@
 #include <voba/module.h>
 #include "gf.h"
 /* range */
-VOBA_FUNC static voba_value_t range_next(voba_value_t self, voba_value_t args);
-VOBA_FUNC voba_value_t range(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t range_next(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[]);
+VOBA_FUNC voba_value_t range(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     int64_t len = voba_tuple_len(args);
     VOBA_ASSERT_N_ARG( args, 0);
@@ -53,19 +53,19 @@ VOBA_FUNC voba_value_t range(voba_value_t self, voba_value_t args)
     }
     return voba_make_closure_3(range_next, ifrom, ito, istep);
 }
-VOBA_FUNC static voba_value_t range_next(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t range_next(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
-    assert(voba_tuple_len(self) == 3);
-    int64_t from = voba_tuple_at(self,0);
-    int64_t to   = voba_tuple_at(self,1);
-    int64_t step = voba_tuple_at(self,2);
+    assert(voba_tuple_len(fun) == 3);
+    int64_t from = voba_tuple_at(fun,0);
+    int64_t to   = voba_tuple_at(fun,1);
+    int64_t step = voba_tuple_at(fun,2);
     assert((step < 0 && to >= from) ||
            (step > 0 && from <= to ));
     voba_value_t ret = VOBA_DONE;
     if(from != to){
         ret = voba_make_i32((int32_t) from);
         from += step;
-        voba_tuple_set(self,0,from);
+        voba_tuple_set(fun,0,from);
     }
     return ret;
 }

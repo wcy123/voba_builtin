@@ -8,7 +8,7 @@
  * usually, you only need to define `==' and `>'
  * so no default implementation for `==' and `>'
  */
-VOBA_FUNC static voba_value_t gt_eq(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t gt_eq(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     voba_value_t ret = voba_apply(gf_equal, args);
     if(voba_eq(ret,VOBA_FALSE)){
@@ -16,11 +16,11 @@ VOBA_FUNC static voba_value_t gt_eq(voba_value_t self, voba_value_t args)
     }
     return ret;
 }
-VOBA_FUNC static voba_value_t lt(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t lt(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     return voba_not(voba_apply(gf_gt_eq,args));
 }
-VOBA_FUNC static voba_value_t lt_eq(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t lt_eq(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     return voba_not(voba_apply(gf_gt,args));
 }

@@ -10,7 +10,7 @@
 #include "array.h"
 #include "other.h"
 
-VOBA_FUNC static voba_value_t f_eq(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t f_eq(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG(args,0);
     voba_value_t a = voba_tuple_at(args,0);
@@ -18,7 +18,7 @@ VOBA_FUNC static voba_value_t f_eq(voba_value_t self, voba_value_t args)
     voba_value_t b = voba_tuple_at(args,1);
     return a == b ? VOBA_TRUE:VOBA_FALSE;
 }
-VOBA_FUNC static voba_value_t i32_mod(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t i32_mod(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG(args,0);
     voba_value_t a = voba_tuple_at(args,0);
@@ -31,7 +31,7 @@ VOBA_FUNC static voba_value_t i32_mod(voba_value_t self, voba_value_t args)
     voba_value_t c = a%b;
     return voba_make_i32((int32_t)c);
 }
-VOBA_FUNC static voba_value_t eq_i32_mod_0(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t eq_i32_mod_0(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG(args,0);
     voba_value_t a = voba_tuple_at(args,0);
@@ -82,9 +82,9 @@ EXEC_ONCE_PROGN{
 /** @brief match for builtin classes
  @todo add document for this function.
  */
-VOBA_FUNC static voba_value_t isa_closure(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t isa_closure(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
-    voba_value_t cls = voba_tuple_at(self,0);
+    voba_value_t cls = voba_tuple_at(fun,0);
     VOBA_ASSERT_N_ARG(args,0);
     voba_value_t v = voba_tuple_at(args,0);
     int64_t args_len = voba_tuple_len(args);
@@ -116,7 +116,7 @@ VOBA_FUNC static voba_value_t isa_closure(voba_value_t self, voba_value_t args)
     }
     return ret;
 }
-VOBA_FUNC static voba_value_t isa(voba_value_t self, voba_value_t args) 
+VOBA_FUNC static voba_value_t isa(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[]) 
 {
     VOBA_ASSERT_N_ARG(args,0);
     voba_value_t cls = voba_tuple_at(args,0);
@@ -125,7 +125,7 @@ VOBA_FUNC static voba_value_t isa(voba_value_t self, voba_value_t args)
 EXEC_ONCE_PROGN {
     VOBA_DEFINE_MODULE_SYMBOL(s_isa,voba_make_func(isa));
 }
-VOBA_FUNC static voba_value_t match_tuple(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t match_tuple(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG(args,0);
     voba_value_t value = voba_tuple_at(args,0);
@@ -156,7 +156,7 @@ EXEC_ONCE_PROGN {
     VOBA_DEFINE_MODULE_SYMBOL(s_match_2Dtuple, voba_make_func(match_tuple));
 }
 
-VOBA_FUNC static voba_value_t tuple(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t tuple(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     int64_t len = voba_tuple_len(args);
     voba_value_t * p = voba_alloc(len + 1);

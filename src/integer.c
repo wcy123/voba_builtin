@@ -10,7 +10,7 @@ static inline int voba_is_int(voba_value_t a )
 }
 /* comparison */
 
-VOBA_FUNC static voba_value_t equal_int(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t equal_int(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     voba_value_t ret = VOBA_FALSE;
     VOBA_ASSERT_N_ARG(args,0);
@@ -26,7 +26,7 @@ VOBA_FUNC static voba_value_t equal_int(voba_value_t self, voba_value_t args)
     }
     return ret;
 }
-VOBA_FUNC static voba_value_t gt_int(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t gt_int(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     voba_value_t ret = VOBA_FALSE;
     VOBA_ASSERT_N_ARG(args,0);
@@ -43,7 +43,7 @@ VOBA_FUNC static voba_value_t gt_int(voba_value_t self, voba_value_t args)
     return ret;
 }
 /* + */
-VOBA_FUNC static voba_value_t plus_int(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t plus_int(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     voba_value_t ret = voba_make_i32(0);
     int64_t r = 0;
@@ -65,7 +65,7 @@ VOBA_FUNC static voba_value_t plus_int(voba_value_t self, voba_value_t args)
 }
 
 /* % */
-VOBA_FUNC static voba_value_t mod_int(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t mod_int(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     voba_value_t ret = VOBA_UNDEF;
     VOBA_ASSERT_N_ARG(args,0);

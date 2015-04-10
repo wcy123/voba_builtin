@@ -5,9 +5,8 @@
 #include <voba/value.h>
 
 #include "../../src/builtin.h"
-static VOBA_FUNC voba_value_t voba_pathstr_file(voba_value_t self, voba_value_t args);
-static VOBA_FUNC voba_value_t voba_pathstr_dir(voba_value_t self, voba_value_t args);
-static VOBA_FUNC voba_value_t voba_is_pathstr(voba_value_t self,voba_value_t args);
+static VOBA_FUNC voba_value_t voba_pathstr_file(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[]);
+static VOBA_FUNC voba_value_t voba_pathstr_dir(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[]);
 
 
 #include "path.h"
@@ -81,7 +80,7 @@ voba_value_t to_filename(voba_value_t a0, char sep)
 }
 
 VOBA_FUNC static 
-voba_value_t to_native(voba_value_t self, voba_value_t args)
+voba_value_t to_native(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     voba_value_t a0 = voba_tuple_at(args,0);
     assert(voba_get_class(a0) == voba_cls_path);
@@ -104,7 +103,7 @@ voba_value_t voba_pathstr_common(voba_value_t args, int is_dir)
         voba_value_t a = voba_tuple_at(args,i);
         if(voba_is_a(a,voba_cls_str)){
             a = split_path(a);
-        }else if(voba_eq(voba_direct_apply_n(voba_is_pathstr, a), VOBA_TRUE)){
+        }else if(voba_is_a(a,voba_cls_path)){
             a = PATH(a)->components_m;
         }else{
             VOBA_THROW(VOBA_CONST_CHAR("unexpected type of arg, expected a string or pathstr. i = ")
@@ -116,24 +115,17 @@ voba_value_t voba_pathstr_common(voba_value_t args, int is_dir)
     return ret;
 }
 
-static VOBA_FUNC voba_value_t voba_pathstr_file(voba_value_t self, voba_value_t args)
+static VOBA_FUNC voba_value_t voba_pathstr_file(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     return voba_pathstr_common(args,0);
 }
 EXEC_ONCE_PROGN{VOBA_DEFINE_MODULE_SYMBOL(s_file, voba_make_func(voba_pathstr_file));}
 
-static VOBA_FUNC voba_value_t voba_pathstr_dir(voba_value_t self, voba_value_t args)
+static VOBA_FUNC voba_value_t voba_pathstr_dir(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     return voba_pathstr_common(args,1);
 }
 EXEC_ONCE_PROGN{VOBA_DEFINE_MODULE_SYMBOL(s_dir, voba_make_func(voba_pathstr_dir));}
-
-static VOBA_FUNC voba_value_t voba_is_pathstr(voba_value_t self,voba_value_t args)
-{
-    assert(voba_tuple_len(args) == 1);
-    return voba_get_class(voba_tuple_at(args,0)) == voba_cls_path?VOBA_TRUE:VOBA_FALSE;
-}
-
 
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)

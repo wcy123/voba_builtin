@@ -5,7 +5,7 @@
 #include "source_c.h"
 VOBA_DEF_CLS(sizeof(source_t),source);
 
-VOBA_FUNC static voba_value_t make_2Dsource(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t make_2Dsource(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     voba_value_t ret = VOBA_NIL;
     VOBA_ASSERT_N_ARG( args, 0);
@@ -43,21 +43,21 @@ VOBA_FUNC static voba_value_t make_2Dsource(voba_value_t self, voba_value_t args
     p_source->content = voba_value_to_str(content);
     return ret;
 }
-VOBA_FUNC static voba_value_t source_2Dfilename(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t source_2Dfilename(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t  source = voba_tuple_at(args, 0);
     VOBA_ASSERT_ARG_ISA(source,voba_cls_source,0);
     return voba_make_string(SOURCE(source)->filename);
 }
-VOBA_FUNC static voba_value_t source_2Dcontent(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t source_2Dcontent(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t  source = voba_tuple_at(args, 0);
     VOBA_ASSERT_ARG_ISA(source,voba_cls_source,0);
     return voba_make_string(SOURCE(source)->content);
 }
-VOBA_FUNC static voba_value_t source_to_string(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t source_to_string(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t  src = voba_tuple_at(args, 0);

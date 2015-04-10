@@ -4,12 +4,12 @@
 #include "ast.h"
 #include "ast_c.h"
 VOBA_DEF_CLS(sizeof(ast_t),ast);
-VOBA_FUNC static voba_value_t make_2Dast(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t make_2Dast(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     voba_value_t ret = VOBA_NIL;
     return ret;
 }
-VOBA_FUNC static voba_value_t ast_to_string(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t ast_to_string(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     return voba_make_string(voba_str_from_cstr("not implemeneted"));
 }

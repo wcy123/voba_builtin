@@ -3,7 +3,7 @@
 #include <voba/value.h>
 #include <voba/module.h>
 #include "gf.h"
-VOBA_FUNC static voba_value_t plus_string(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t plus_string(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     voba_str_t* ret = voba_str_empty();
     int64_t len = voba_tuple_len(args);

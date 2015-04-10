@@ -7,7 +7,7 @@
 extern voba_value_t voba_cls_syntax;
 VOBA_DEF_CLS(sizeof(syntax_t),syntax);
 void syntax_get_line_column(int start, voba_value_t syntax,uint32_t * line, uint32_t * col);
-VOBA_FUNC static voba_value_t syntax_to_string(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t syntax_to_string(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t  syntax = voba_tuple_at(args, 0);
@@ -24,7 +24,7 @@ static voba_value_t make_syntax_1(voba_value_t v, uint32_t start_pos, uint32_t e
     SYNTAX(ret)->source = source;
     return ret;
 }
-VOBA_FUNC static voba_value_t make_syntax(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t make_syntax(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG(args, 0);
     voba_value_t value = voba_tuple_at(args, 0);
@@ -42,28 +42,28 @@ VOBA_FUNC static voba_value_t make_syntax(voba_value_t self, voba_value_t args)
                          ,(uint32_t)voba_value_to_i32(end_pos)
                          ,source);
 }
-VOBA_FUNC static voba_value_t syntax_value(voba_value_t self,voba_value_t args)
+VOBA_FUNC static voba_value_t syntax_value(voba_value_t fun,voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t  syntax = voba_tuple_at(args, 0);
     VOBA_ASSERT_ARG_ISA(syntax,voba_cls_syntax,0);
     return SYNTAX(syntax)->value;
 }
-VOBA_FUNC static voba_value_t syntax_start_pos(voba_value_t self,voba_value_t args)
+VOBA_FUNC static voba_value_t syntax_start_pos(voba_value_t fun,voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t  syntax = voba_tuple_at(args, 0);
     VOBA_ASSERT_ARG_ISA(syntax,voba_cls_syntax,0);
     return voba_make_i32((int32_t)SYNTAX(syntax)->start_pos);
 }
-VOBA_FUNC static voba_value_t syntax_end_pos(voba_value_t self,voba_value_t args)
+VOBA_FUNC static voba_value_t syntax_end_pos(voba_value_t fun,voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t  syntax = voba_tuple_at(args, 0);
     VOBA_ASSERT_ARG_ISA(syntax,voba_cls_syntax,0);
     return voba_make_i32((int32_t)SYNTAX(syntax)->end_pos);
 }
-VOBA_FUNC static voba_value_t syntax_source(voba_value_t self,voba_value_t args)
+VOBA_FUNC static voba_value_t syntax_source(voba_value_t fun,voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t  syntax = voba_tuple_at(args, 0);

@@ -4,7 +4,7 @@
 #include <voba/module.h>
 #include "gf.h"
 /* gf len */
-VOBA_FUNC static voba_value_t len_tuple(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t len_tuple(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG(args,0);
     voba_value_t a = voba_tuple_at(args,0);

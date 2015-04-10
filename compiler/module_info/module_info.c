@@ -187,7 +187,7 @@ static inline voba_value_t random_module_id(voba_value_t module_name)
                       VOBA_CONST_CHAR("."));
     return voba_make_string(ret);
 }
-VOBA_FUNC static voba_value_t read_module_info(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t read_module_info(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t  module_name = voba_tuple_at(args, 0);
@@ -200,7 +200,7 @@ VOBA_FUNC static voba_value_t read_module_info(voba_value_t self, voba_value_t a
     }
     return read_module_info_1(module_name,pwd);
 }
-VOBA_FUNC static voba_value_t module_info_to_string(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t module_info_to_string(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t  module_info = voba_tuple_at(args, 0);
@@ -220,7 +220,7 @@ VOBA_FUNC static voba_value_t module_info_to_string(voba_value_t self, voba_valu
     }
     return voba_make_string(ret);
 }
-VOBA_FUNC static voba_value_t load_module(voba_value_t self, voba_value_t args)
+VOBA_FUNC static voba_value_t load_module(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
 {
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t  module_info = voba_tuple_at(args, 0);
