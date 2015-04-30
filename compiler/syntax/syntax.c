@@ -12,7 +12,7 @@ VOBA_FUNC static voba_value_t syntax_to_string(voba_value_t fun, voba_value_t ar
     VOBA_ASSERT_N_ARG( args, 0);
     voba_value_t  syntax = voba_tuple_at(args, 0);
     VOBA_ASSERT_ARG_ISA(syntax,voba_cls_syntax,0);
-    voba_value_t tmp_args[] = {1,SYNTAX(syntax)->value};
+    voba_value_t tmp_args[] = {1,SYNTAX(syntax)->value, VOBA_BOX_END};
     return voba_apply(voba_gf_to_string, voba_make_tuple(tmp_args));
 }
 static voba_value_t make_syntax_1(voba_value_t v, uint32_t start_pos, uint32_t end_pos,voba_value_t source)

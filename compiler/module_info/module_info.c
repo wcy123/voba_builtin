@@ -69,7 +69,8 @@ static inline voba_value_t read_module_info_1(voba_value_t module_name, voba_val
                                               voba_vstrcat(
                                                   voba_str_from_cstr("\""),
                                                   voba_value_to_str(module_name),
-                                                  voba_str_from_cstr("\""),NULL))};
+                                                  voba_str_from_cstr("\""),NULL))
+					  ,VOBA_BOX_END};
                 source = voba_apply(
                     voba_symbol_value(s_make_2Dsource), voba_make_tuple(tmpargs));
             }
@@ -87,7 +88,8 @@ static inline voba_value_t read_module_info_1(voba_value_t module_name, voba_val
                                               voba_vstrcat(
                                                   voba_str_from_cstr("\""),
                                                   voba_value_to_str(anonymous_module_id),
-                                                  voba_str_from_cstr("\""),NULL))};
+                                                  voba_str_from_cstr("\""),NULL))
+					  ,VOBA_BOX_END};
                 source = voba_apply(
                     voba_symbol_value(s_make_2Dsource), voba_make_tuple(tmpargs));
             }
@@ -103,7 +105,7 @@ static inline voba_value_t read_module_info_1(voba_value_t module_name, voba_val
     }else{
         voba_value_t source = VOBA_NIL;
         {
-            voba_value_t tmpargs[] = {1, module_header_file};
+            voba_value_t tmpargs[] = {1, module_header_file, VOBA_BOX_END};
             source = voba_apply(
                 voba_symbol_value(s_make_2Dsource), voba_make_tuple(tmpargs));
         }
@@ -227,12 +229,13 @@ VOBA_FUNC static voba_value_t load_module(voba_value_t fun, voba_value_t args, v
     VOBA_ASSERT_ARG_ISA(module_info,voba_cls_module_info,0);
     module_info_t * mi = MODULE_INFO(module_info);
     int64_t len = voba_array_len(mi->a_syn_symbols);
-    voba_value_t tmpargs[len+1];
+    voba_value_t tmpargs[len+2];
     tmpargs[0] = len;
     for(int64_t i = 0 ; i < len ; ++i){
         voba_value_t sym = SYNTAX(voba_array_at(mi->a_syn_symbols,i))->value;
         tmpargs[i+1] = sym;
     }
+    tmpargs[len+1] = VOBA_BOX_END;
     voba_value_t ret = voba_import_module(
         voba_str_to_cstr(voba_value_to_str(SYNTAX(mi->syn_name)->value)),
         voba_str_to_cstr(voba_value_to_str(SYNTAX(mi->syn_id)->value)),

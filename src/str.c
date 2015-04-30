@@ -12,7 +12,7 @@ VOBA_FUNC static voba_value_t plus_string(voba_value_t fun, voba_value_t args, v
         if(voba_get_class(ai) == voba_cls_str){
             ret = voba_strcat(ret, voba_value_to_str(ai));
         }else{
-            voba_value_t tmp_args[] = {1,ai};
+            voba_value_t tmp_args[] = {1,ai, VOBA_BOX_END};
             voba_value_t s = voba_apply(voba_gf_to_string,voba_make_tuple(tmp_args));
             ret = voba_strcat(ret, voba_value_to_str(s));
         }
