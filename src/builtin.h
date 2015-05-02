@@ -25,6 +25,7 @@
     XX(isa)                                             \
     XX(match_2Dtuple)                                   \
     XX(tuple)                                           \
+    XX(match_2Dbox)					\
     
 //(gf_apply)                              
 //(apply)                                 

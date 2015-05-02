@@ -172,6 +172,56 @@ VOBA_FUNC static voba_value_t tuple(voba_value_t fun, voba_value_t args, voba_va
 EXEC_ONCE_PROGN{
     VOBA_DEFINE_MODULE_SYMBOL(s_tuple,voba_make_func(tuple));
 }
+/** @brief match-box
+ */
+static VOBA_FUNC voba_value_t match_box(voba_value_t fun, voba_value_t args, voba_value_t* next_fun, voba_value_t next_args[])
+{
+    VOBA_ASSERT_N_ARG(args,0);
+    voba_value_t value = voba_tuple_at(args,0);
+    VOBA_ASSERT_N_ARG(args,1);
+    int32_t index = voba_value_to_i32(voba_tuple_at(args,1));
+    VOBA_ASSERT_N_ARG(args,2);
+    int32_t match_len = voba_value_to_i32(voba_tuple_at(args,2));
+    voba_value_t ret = VOBA_FALSE;
+    voba_value_t cls = voba_get_class(value);
+    if(index == -1){
+	if((cls == voba_cls_array) ||
+	   (cls == voba_cls_box) ||
+	   (cls == voba_cls_tuple)){
+	    if( match_len == 1 || match_len == 2){
+		ret = VOBA_TRUE;
+	    }
+	}
+    }else{
+	voba_value_t * p = NULL;
+	if((cls == voba_cls_tuple)){
+	    p = voba_tuple_base(value);
+	}else if((cls ==  voba_cls_array)){
+	    p = voba_array_base(value);
+	}else if((cls ==  voba_cls_box)){
+	    p = voba_box_to_pointer(value);
+	}else{
+	    assert(0 && "never goes here");
+	}
+	assert(p);
+	if(index == 0){
+	    ret = *p;
+	}else if(index == 1){
+	    ++p;
+	    if(*p == VOBA_BOX_END){
+		ret = VOBA_NIL;
+	    }else{
+		ret = voba_pointer_to_box(p);
+	    }
+	}else{
+	    assert(0 && "never goes here");
+	}
+    }
+    return ret;
+}
+EXEC_ONCE_PROGN{
+    VOBA_DEFINE_MODULE_SYMBOL(s_match_2Dbox, voba_make_func(match_box));
+}
 // the main entry
 voba_value_t voba_init(voba_value_t this_module)
 {
